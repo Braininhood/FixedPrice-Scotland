@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px; }
+        .header { background-color: #0047AB; color: white; padding: 10px; text-align: center; border-radius: 5px 5px 0 0; }
+        .content { padding: 20px; }
+        .footer { font-size: 0.8em; color: #777; text-align: center; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div className="container">
+        <div className="header">
+            <h1>Listing Published</h1>
+        </div>
+        <div className="content">
+            <p>Great news!</p>
+            <p>Your listing <strong>"{{ listing_title }}"</strong> has been successfully published on FixedPrice Scotland.</p>
+            <p>Our AI is currently classifying your property to ensure it reaches the right buyers with the most accurate probability score.</p>
+            <p>You can view and manage your listing from your dashboard.</p>
+            <p>Best regards,<br>The FixedPrice Scotland Team</p>
+        </div>
+        <div className="footer">
+            <p>&copy; 2026 FixedPrice Scotland. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

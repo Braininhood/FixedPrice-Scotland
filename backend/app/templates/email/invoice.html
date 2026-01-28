@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px; }
+        .header { background-color: #0047AB; color: white; padding: 10px; text-align: center; border-radius: 5px 5px 0 0; }
+        .content { padding: 20px; }
+        .bank-details { background-color: #f9f9f9; padding: 15px; border-left: 5px solid #0047AB; margin: 20px 0; }
+        .footer { font-size: 0.8em; color: #777; text-align: center; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div className="container">
+        <div className="header">
+            <h1>Subscription Invoice</h1>
+        </div>
+        <div className="content">
+            <p>Hi {{ full_name }},</p>
+            <p>Thank you for choosing the <strong>{{ plan_name }}</strong> plan. To activate your subscription, please make a bank transfer for the amount below:</p>
+            
+            <h2 style="color: #0047AB;">Amount Due: £{{ amount }}</h2>
+            
+            <p>Please use the following bank details for the transfer:</p>
+            
+            <div className="bank-details">
+                <p><strong>Account Name:</strong> {{ bank_details.account_name }}</p>
+                <p><strong>Sort Code:</strong> {{ bank_details.sort_code }}</p>
+                <p><strong>Account Number:</strong> {{ bank_details.account_number }}</p>
+                <p><strong>Payment Reference:</strong> {{ bank_details.reference }}</p>
+            </div>
+            
+            <p>Once we receive your payment, your subscription will be activated within 24 hours.</p>
+            <p>Note: Card payments will be added to the platform in the future.</p>
+            
+            <p>Best regards,<br>The FixedPrice Scotland Team</p>
+        </div>
+        <div className="footer">
+            <p>&copy; 2026 FixedPrice Scotland. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
