@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,20 +9,20 @@ import { Loader2, CheckCircle2, XCircle } from 'lucide-react';
 
 /**
  * OAuth Consent Page
- * 
+ *
  * This page handles OAuth authorization consent flow.
  * Supabase redirects here after OAuth provider authorization.
- * 
+ *
  * Route: /oauth/consent
  * Configured in Supabase Dashboard → Authentication → URL Configuration
- * 
+ *
  * Flow:
  * 1. User clicks OAuth button → redirects to provider (Google/Facebook)
  * 2. User authorizes → provider redirects to Supabase callback
  * 3. Supabase processes → redirects to /oauth/consent with code
  * 4. This page exchanges code for session → redirects to /auth/callback
  */
-export default function OAuthConsentPage() {
+function OAuthConsentContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [status, setStatus] = React.useState<'loading' | 'success' | 'error'>('loading');
@@ -140,5 +140,17 @@ export default function OAuthConsentPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function OAuthConsentPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center">
+        <Loader2 className="h-12 w-12 animate-spin text-primary" />
+      </div>
+    }>
+      <OAuthConsentContent />
+    </Suspense>
   );
 }

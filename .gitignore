@@ -43,6 +43,9 @@ ENV/
 .coverage
 htmlcov/
 
+# Frontend src/lib is source code (do not ignore)
+!frontend/src/lib/
+
 # Logs
 *.log
 logs/

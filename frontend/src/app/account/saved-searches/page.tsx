@@ -86,7 +86,7 @@ const searchSchema = z.object({
   city: z.string().optional(),
   region: z.string().optional(),
   confidence_level: z.enum(['explicit', 'explicit_and_likely']).optional(),
-  is_active: z.boolean().default(true),
+  is_active: z.boolean(),
 });
 
 type SearchFormValues = z.infer<typeof searchSchema>;

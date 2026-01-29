@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { Suspense, useState, useEffect, useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -87,7 +87,7 @@ interface Listing {
 
 type SortOption = 'price_asc' | 'price_desc' | 'newest' | 'oldest';
 
-export default function ListingsPage() {
+function ListingsPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user } = useAuth();
@@ -556,4 +556,16 @@ export default function ListingsPage() {
       </>
     );
   }
+}
+
+export default function ListingsPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center">
+        <LoadingSpinner size="lg" />
+      </div>
+    }>
+      <ListingsPageContent />
+    </Suspense>
+  );
 }
