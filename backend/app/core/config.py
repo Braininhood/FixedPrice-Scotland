@@ -1,6 +1,8 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from typing import List
+from pydantic import field_validator
+from typing import List, Union
 import os
+
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "FixedPrice Scotland API"
@@ -35,16 +37,19 @@ class Settings(BaseSettings):
     JWT_SECRET: str  # Required, no default - must be set in .env
     ALGORITHM: str = "HS256"
     
-    # CORS
-    CORS_ORIGINS: List[str] = [
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://localhost:8000",
-        "http://127.0.0.1:8000",
-        "http://0.0.0.0:8000",
-    ]
+    # CORS (env: comma-separated string or JSON array)
+    CORS_ORIGINS: Union[str, List[str]] = "http://localhost:3000,http://127.0.0.1:3000,http://localhost:8000,http://127.0.0.1:8000,http://0.0.0.0:8000"
     # Set to True to allow wildcard localhost in development only
     CORS_ALLOW_LOCALHOST_WILDCARD: bool = True
+
+    @field_validator("CORS_ORIGINS", mode="before")
+    @classmethod
+    def parse_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:
+        if isinstance(v, list):
+            return v
+        if isinstance(v, str):
+            return [x.strip() for x in v.split(",") if x.strip()]
+        return []
 
     # Email Settings
     MAIL_USERNAME: str = ""
