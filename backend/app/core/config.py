@@ -72,9 +72,11 @@ class Settings(BaseSettings):
     ZOOPLA_ENABLED: bool = False
 
     model_config = SettingsConfigDict(
-        env_file=".env", 
+        env_file=".env",
         case_sensitive=True,
-        extra="ignore" # Ignore extra env vars if any
+        extra="ignore",
     )
 
-settings = Settings()
+
+# Required fields are loaded from env by BaseSettings; no constructor args needed
+settings: Settings = Settings()  # type: ignore[call-arg]
