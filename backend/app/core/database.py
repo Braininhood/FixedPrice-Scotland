@@ -1,6 +1,13 @@
 import os
-from typing import Optional
-from supabase import create_client, Client
+from typing import Any, Optional, cast
+
+# Use sync client only to avoid loading async client (which can trigger
+# ImportError: AsyncRPCFilterRequestBuilder with some supabase/postgrest versions)
+try:
+    from supabase._sync.client import create_client, Client
+except ImportError:
+    from supabase import create_client, Client
+
 from app.core.config import settings
 from app.core.logging_config import get_logger
 
@@ -85,7 +92,9 @@ def test_connection() -> bool:
     """
     try:
         client = get_supabase_client(use_service_role=True)
-        response = client.table("listings").select("count", count="exact").limit(1).execute()
+        response = client.table("listings").select(
+            "count", count=cast(Any, "exact")
+        ).limit(1).execute()
         logger.info("Database connection test successful")
         return True
     except Exception as e:
