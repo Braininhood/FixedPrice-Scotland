@@ -1,10 +1,10 @@
 fastapi
 uvicorn[standard]
 python-dotenv
-supabase
+supabase>=2.27.0
 openai
-httpx
-pydantic
+httpx>=0.26,<0.29
+pydantic>=2.0
 pydantic-settings
 stripe
 python-jose[cryptography]
