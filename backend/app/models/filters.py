@@ -21,30 +21,28 @@ class ListingFilters(BaseModel):
     
     @validator('postcode')
     def validate_postcode(cls, v):
-        """Validate and normalize UK postcode."""
+        """Validate and normalize UK postcode. Empty treated as None; single character allowed for typing (e.g. G, E)."""
         if v is None:
             return None
-        # Strip whitespace and convert to uppercase
         v = v.strip().upper()
-        # Basic UK postcode validation (simplified)
-        if not re.match(r'^[A-Z]{1,2}[0-9]{1,2}[A-Z]?\s?[0-9][A-Z]{2}$|^[A-Z]{1,2}[0-9]{1,2}$', v):
-            # Allow partial postcodes for searching
-            if len(v) < 2 or len(v) > 8:
-                raise ValueError('Invalid postcode format')
+        if not v:
+            return None
+        # Allow partial postcodes while typing (1–8 chars, alphanumeric + space)
+        if not re.match(r'^[A-Z0-9\s]+$', v) or len(v) > 8:
+            raise ValueError('Invalid postcode format')
         return v
     
     @validator('city')
     def validate_city(cls, v):
-        """Validate and sanitize city name."""
+        """Validate and sanitize city name or postcode (location search). Comma-separated values allowed. Empty/whitespace treated as no filter."""
         if v is None:
             return None
-        # Strip whitespace and title case
         v = v.strip()
-        # Only allow letters, spaces, hyphens, apostrophes
-        if not re.match(r"^[a-zA-Z\s\-']+$", v):
-            raise ValueError('Invalid city name format')
-        if len(v) < 2:
-            raise ValueError('City name too short')
+        if not v:
+            return None
+        # Allow letters, digits, spaces, hyphens, apostrophes, commas (single character ok while typing)
+        if not re.match(r"^[a-zA-Z0-9\s\-',]+$", v):
+            raise ValueError('Invalid city/location format')
         return v
     
     @validator('confidence_level')
@@ -80,23 +78,24 @@ class SearchFilters(BaseModel):
     
     @validator('postcode')
     def validate_postcode(cls, v):
-        """Validate and normalize UK postcode."""
+        """Validate and normalize UK postcode. Empty or single character allowed."""
         if v is None:
             return None
         v = v.strip().upper()
-        if not re.match(r'^[A-Z]{1,2}[0-9]{1,2}[A-Z]?\s?[0-9][A-Z]{2}$|^[A-Z]{1,2}[0-9]{1,2}$', v):
-            if len(v) < 2 or len(v) > 8:
-                raise ValueError('Invalid postcode format')
+        if not v:
+            return None
+        if not re.match(r'^[A-Z0-9\s]+$', v) or len(v) > 8:
+            raise ValueError('Invalid postcode format')
         return v
     
     @validator('city')
     def validate_city(cls, v):
-        """Validate and sanitize city name."""
+        """Validate and sanitize city name or postcode (location search). Comma-separated allowed."""
         if v is None:
             return None
         v = v.strip()
-        if not re.match(r"^[a-zA-Z\s\-']+$", v):
-            raise ValueError('Invalid city name format')
+        if not re.match(r"^[a-zA-Z0-9\s\-',]+$", v):
+            raise ValueError('Invalid city/location format')
         return v
     
     @validator('confidence_level')

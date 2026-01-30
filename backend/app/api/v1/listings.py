@@ -1,5 +1,6 @@
 import uuid
 from datetime import datetime, timezone, timedelta
+from types import SimpleNamespace
 from typing import Any, List, Optional
 from uuid import UUID
 from fastapi import APIRouter, Depends, File, HTTPException, Query, Request, UploadFile, status
@@ -81,16 +82,46 @@ async def get_listings(
     
     query = supabase.table("listings").select("*, classifications(*)").eq("is_active", True)
     
-    # Use validated and sanitized filters
+    # Use validated and sanitized filters (city/search matches both city and postcode for any casing)
     if filters.postcode:
         query = query.ilike("postcode", f"%{filters.postcode}%")
     if filters.city:
-        query = query.ilike("city", f"%{filters.city}%")
-    if filters.max_price:
-        query = query.lte("price_numeric", filters.max_price)
-        
-    response = query.range(filters.skip, filters.skip + filters.limit - 1).execute()
-    
+        # Support single or comma-separated locations (e.g. Edinburgh, g12, Td1). Each term matches city OR postcode; ilike is case-insensitive.
+        terms = [t.strip() for t in filters.city.split(",") if t.strip()]
+        if not terms:
+            # Empty/whitespace-only: use normal query (no city filter)
+            if filters.max_price:
+                query = query.lte("price_numeric", filters.max_price)
+            response = query.range(filters.skip, filters.skip + filters.limit - 1).execute()
+        else:
+            seen_ids = set()
+            merged = []
+            for term in terms:
+                # Starts-with: e.g. "g" matches Glasgow, G12; "EH1" matches EH1, EH1 2AB (case-insensitive)
+                pattern = f"{term}%"
+                q_city = supabase.table("listings").select("*, classifications(*)").eq("is_active", True).ilike("city", pattern)
+                q_postcode = supabase.table("listings").select("*, classifications(*)").eq("is_active", True).ilike("postcode", pattern)
+                if filters.postcode:
+                    q_city = q_city.ilike("postcode", f"%{filters.postcode}%")
+                    q_postcode = q_postcode.ilike("postcode", f"%{filters.postcode}%")
+                if filters.max_price:
+                    q_city = q_city.lte("price_numeric", filters.max_price)
+                    q_postcode = q_postcode.lte("price_numeric", filters.max_price)
+                r_city = q_city.range(0, filters.skip + filters.limit + 99).execute()
+                r_postcode = q_postcode.range(0, filters.skip + filters.limit + 99).execute()
+                for item in (r_city.data or []) + (r_postcode.data or []):
+                    if not isinstance(item, dict):
+                        continue
+                    lid = item.get("id")
+                    if lid and lid not in seen_ids:
+                        seen_ids.add(lid)
+                        merged.append(item)
+            response = SimpleNamespace(data=merged[filters.skip : filters.skip + filters.limit])
+    else:
+        if filters.max_price:
+            query = query.lte("price_numeric", filters.max_price)
+        response = query.range(filters.skip, filters.skip + filters.limit - 1).execute()
+
     # Enrich listings with probability data
     results = []
     if response.data and isinstance(response.data, list):

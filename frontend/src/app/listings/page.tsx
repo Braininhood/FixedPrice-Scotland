@@ -51,7 +51,6 @@ import apiClient from '@/lib/api/client';
 import ListingCard from '@/components/listings/ListingCard';
 import ListingsMap from '@/components/listings/ListingsMap';
 import BudgetFilter from '@/components/filters/BudgetFilter';
-import AreaFilter from '@/components/filters/AreaFilter';
 import ConfidenceFilter from '@/components/filters/ConfidenceFilter';
 import FixedPriceToggle from '@/components/filters/FixedPriceToggle';
 import FilterBar from '@/components/filters/FilterBar';
@@ -92,10 +91,11 @@ function ListingsPageContent() {
   const searchParams = useSearchParams();
   const { user } = useAuth();
   
-  // Filter state from URL params (with defaults)
+  // Filter state from URL params (with defaults). Single "Location" field (like homepage) – town and/or postcode, comma-separated.
+  const [location, setLocation] = useState<string>(
+    searchParams.get('city') || searchParams.get('postcode') || ''
+  );
   const [maxBudget, setMaxBudget] = useState<string>(searchParams.get('max_budget') || '');
-  const [postcode, setPostcode] = useState<string>(searchParams.get('postcode') || '');
-  const [city, setCity] = useState<string>(searchParams.get('city') || '');
   // Fixed Price Only defaults to ON (true) - best practice for this app
   const [fixedPriceOnly, setFixedPriceOnly] = useState<boolean>(
     searchParams.get('fixed_price_only') === null 
@@ -111,8 +111,7 @@ function ListingsPageContent() {
 
   // Debounced values for API calls (prevents excessive requests while typing)
   const debouncedMaxBudget = useDebounce(maxBudget, 500);
-  const debouncedPostcode = useDebounce(postcode, 500);
-  const debouncedCity = useDebounce(city, 500);
+  const debouncedLocation = useDebounce(location, 500);
   
   // Data state
   const [listings, setListings] = useState<Listing[]>([]);
@@ -125,6 +124,9 @@ function ListingsPageContent() {
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
   
   const itemsPerPage = 12;
+
+  // Skip one effect run when "Show Properties" is clicked (we call fetchListings with current values directly)
+  const skipNextFetchRef = React.useRef(false);
 
   // Check subscription status
   useEffect(() => {
@@ -154,39 +156,44 @@ function ListingsPageContent() {
     checkSubscription();
   }, [user]);
 
-  // Update URL params when filters change (debounced for text inputs)
-  const updateURLParams = useCallback(() => {
+  // Build filter values for API/URL: single location sent as city (backend searches both city and postcode)
+  const getFilterValues = useCallback((overrides?: { maxBudget?: string; city?: string }) => {
+    const loc = overrides?.city ?? debouncedLocation;
+    return {
+      maxBudget: overrides?.maxBudget ?? debouncedMaxBudget,
+      city: loc || undefined,
+    };
+  }, [debouncedMaxBudget, debouncedLocation]);
+
+  // Update URL params when filters change (uses same filter values as listings request)
+  const updateURLParams = useCallback((overrides?: { maxBudget?: string; city?: string }) => {
+    const { maxBudget: mb, city: ct } = getFilterValues(overrides);
     const params = new URLSearchParams();
-    if (debouncedMaxBudget) params.set('max_budget', debouncedMaxBudget);
-    if (debouncedPostcode) params.set('postcode', debouncedPostcode);
-    if (debouncedCity) params.set('city', debouncedCity);
-    // Only add fixed_price_only to URL if it's OFF (default is ON)
+    if (mb) params.set('max_budget', mb);
+    if (ct) params.set('city', ct);
     if (!fixedPriceOnly) params.set('fixed_price_only', 'false');
     if (confidenceLevel && confidenceLevel !== 'all') params.set('confidence', confidenceLevel);
     if (sortBy !== 'newest') params.set('sort', sortBy);
-    
     const newUrl = params.toString() ? `/listings?${params.toString()}` : '/listings';
     router.push(newUrl, { scroll: false });
-  }, [debouncedMaxBudget, debouncedPostcode, debouncedCity, fixedPriceOnly, confidenceLevel, sortBy, router]);
+  }, [getFilterValues, fixedPriceOnly, confidenceLevel, sortBy, router]);
 
-  // Fetch listings (using debounced values for text inputs)
-  const fetchListings = useCallback(async () => {
+  // Fetch listings – filter values come from getFilterValues; pass overrides when "Show Properties" / "Apply" is clicked
+  const fetchListings = useCallback(async (overrides?: { maxBudget?: string; city?: string; page?: number }) => {
     setIsLoading(true);
     setError(null);
     try {
+      const page = overrides?.page ?? currentPage;
+      const { maxBudget: mb, city: ct } = getFilterValues(overrides);
       const params: Record<string, string> = {
-        skip: String((currentPage - 1) * itemsPerPage),
+        skip: String((page - 1) * itemsPerPage),
         limit: String(itemsPerPage),
       };
-      
-      // Use debounced values for text inputs to reduce API calls
-      if (debouncedMaxBudget) params.max_price = debouncedMaxBudget;
-      if (debouncedPostcode) params.postcode = debouncedPostcode;
-      if (debouncedCity) params.city = debouncedCity;
+      if (mb) params.max_price = mb;
+      if (ct) params.city = ct;
       if (confidenceLevel && confidenceLevel !== 'all' && hasSubscription) {
         params.confidence_level = confidenceLevel;
       }
-      
       const response = await apiClient.get('/listings/', { params });
       
       let filteredListings = response.data || [];
@@ -205,13 +212,11 @@ function ListingsPageContent() {
       
       setListings(filteredListings);
       setError(null);
-      // If we got fewer results than requested, we're on the last page
       const isLastPage = filteredListings.length < itemsPerPage;
-      setTotalPages(isLastPage ? currentPage : currentPage + 1);
+      setTotalPages(isLastPage ? page : page + 1);
     } catch (error: any) {
-      logger.apiError('Error fetching listings', error, {
-        filters: { maxBudget: debouncedMaxBudget, postcode: debouncedPostcode, city: debouncedCity }
-      });
+      const { maxBudget: mb, city: ct } = getFilterValues(overrides);
+      logger.apiError('Error fetching listings', error, { filters: { maxBudget: mb, city: ct } });
       
       // If 401 and we're not using advanced filters, it might be an auth issue - try without token
       if (error.response?.status === 401 && !confidenceLevel) {
@@ -250,7 +255,7 @@ function ListingsPageContent() {
     } finally {
       setIsLoading(false);
     }
-  }, [currentPage, debouncedMaxBudget, debouncedPostcode, debouncedCity, fixedPriceOnly, confidenceLevel, sortBy, hasSubscription]);
+  }, [currentPage, getFilterValues, fixedPriceOnly, confidenceLevel, sortBy, hasSubscription]);
 
   // Sort listings
   const sortListings = (listingsToSort: Listing[], sort: SortOption): Listing[] => {
@@ -269,18 +274,20 @@ function ListingsPageContent() {
     }
   };
 
-  // Apply filters
+  // Apply filters – read current input values (same source as inputs) and use for request + URL
   const handleApplyFilters = () => {
+    const currentValues = { maxBudget, city: location, page: 1 };
+    skipNextFetchRef.current = true;
     setCurrentPage(1);
-    updateURLParams();
+    updateURLParams(currentValues);
+    fetchListings(currentValues);
     setIsFilterSheetOpen(false);
   };
 
   // Clear all filters (reset to defaults)
   const handleClearFilters = () => {
     setMaxBudget('');
-    setPostcode('');
-    setCity('');
+    setLocation('');
     setFixedPriceOnly(true); // Default is ON
     setConfidenceLevel('all');
     setSortBy('newest');
@@ -288,8 +295,12 @@ function ListingsPageContent() {
     router.push('/listings', { scroll: false });
   };
 
-  // Effects
+  // Effects – fetch when filters/page change; skip once when "Show Properties" applied (we call fetchListings with current values)
   useEffect(() => {
+    if (skipNextFetchRef.current) {
+      skipNextFetchRef.current = false;
+      return;
+    }
     fetchListings();
   }, [fetchListings]);
 
@@ -306,17 +317,11 @@ function ListingsPageContent() {
         value: `£${parseInt(debouncedMaxBudget, 10).toLocaleString('en-GB')}`, 
         onRemove: () => setMaxBudget('') 
       },
-      debouncedPostcode && { 
-        key: 'postcode', 
-        label: 'Postcode', 
-        value: debouncedPostcode, 
-        onRemove: () => setPostcode('') 
-      },
-      debouncedCity && { 
-        key: 'city', 
-        label: 'City', 
-        value: debouncedCity, 
-        onRemove: () => setCity('') 
+      debouncedLocation && { 
+        key: 'location', 
+        label: 'Location', 
+        value: debouncedLocation, 
+        onRemove: () => setLocation('') 
       },
       confidenceLevel && confidenceLevel !== 'all' && { 
         key: 'confidence', 
@@ -332,7 +337,7 @@ function ListingsPageContent() {
         onRemove: () => setFixedPriceOnly(true) 
       },
     ].filter((f): f is { key: string; label: string; value: string; onRemove: () => void } => Boolean(f));
-  }, [debouncedMaxBudget, debouncedPostcode, debouncedCity, confidenceLevel, fixedPriceOnly]);
+  }, [debouncedMaxBudget, debouncedLocation, confidenceLevel, fixedPriceOnly]);
 
   return (
     <div className="container max-w-7xl mx-auto px-4 py-8">
@@ -440,6 +445,9 @@ function ListingsPageContent() {
             </CardHeader>
             <CardContent className="space-y-6">
               {renderFilters()}
+              <Button onClick={handleApplyFilters} className="w-full">
+                Show Properties
+              </Button>
             </CardContent>
           </Card>
         </aside>
@@ -520,13 +528,25 @@ function ListingsPageContent() {
           placeholder="e.g., 200000"
         />
 
-        {/* Area Filter */}
-        <AreaFilter
-          postcode={postcode}
-          city={city}
-          onPostcodeChange={setPostcode}
-          onCityChange={setCity}
-        />
+        {/* Location – single field (town and/or postcode, comma-separated), same as homepage */}
+        <div className="space-y-2">
+          <Label htmlFor="filter-location" className="flex items-center gap-2">
+            <MapPin className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+            <span>Location</span>
+          </Label>
+          <div className="relative">
+            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" aria-hidden="true" />
+            <Input
+              id="filter-location"
+              placeholder="e.g. Edinburgh, G12, Aberdeen"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              className="pl-10"
+              aria-label="Location (town or postcode)"
+              autoComplete="off"
+            />
+          </div>
+        </div>
 
         {/* Fixed Price Only Toggle (defaults to ON) */}
         <FixedPriceToggle

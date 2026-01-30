@@ -1,15 +1,23 @@
-import axios, { type AxiosInstance, type AxiosError } from 'axios';
+import axios, { type AxiosInstance } from 'axios';
 import { supabase } from '@/lib/supabase';
 
-const baseURL = typeof process !== 'undefined' ? (process.env.NEXT_PUBLIC_API_URL ?? '') : '';
+/** API base URL: in browser use same host as page (so both IP and DNS work); otherwise use env. */
+function getBaseURL(): string {
+  if (typeof window !== 'undefined') {
+    return `${window.location.protocol}//${window.location.hostname}:8000/api/v1`;
+  }
+  return (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_API_URL) || '';
+}
 
 const apiClient: AxiosInstance = axios.create({
-  baseURL,
+  baseURL: getBaseURL() || undefined,
   timeout: 30000,
   headers: { 'Content-Type': 'application/json' },
 });
 
 apiClient.interceptors.request.use(async (config) => {
+  const url = getBaseURL();
+  if (url) config.baseURL = url;
   try {
     const { data: { session } } = await supabase.auth.getSession();
     if (session?.access_token) {
@@ -25,12 +33,13 @@ apiClient.interceptors.request.use(async (config) => {
  * Base API origin (no path), e.g. http://localhost:8000
  */
 export function getApiOrigin(): string {
-  if (!baseURL) return '';
+  const base = getBaseURL();
+  if (!base) return '';
   try {
-    const u = new URL(baseURL);
-    return `${u.origin}`;
+    const u = new URL(base);
+    return u.origin;
   } catch {
-    return baseURL.replace(/\/api\/v1\/?$/, '') || '';
+    return base.replace(/\/api\/v1\/?$/, '') || '';
   }
 }
 

@@ -1,19 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Search, 
-  CheckCircle2, 
-  TrendingUp, 
-  Target, 
-  ArrowRight, 
-  MapPin, 
-  Zap, 
+import {
+  Search,
+  CheckCircle2,
+  TrendingUp,
+  Target,
+  ArrowRight,
+  MapPin,
+  Zap,
   ShieldCheck,
   Filter,
   Info
@@ -26,18 +26,36 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuCheckboxItem,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 
 export default function Home() {
-  const [confidence, setConfidence] = useState<string[]>(["Explicit", "Likely"]);
+  const [location, setLocation] = useState('');
+  const [maxBudget, setMaxBudget] = useState('');
+  const [confidence, setConfidence] = useState<string[]>(['Explicit', 'Likely']);
 
   const toggleConfidence = (value: string) => {
-    setConfidence(current => 
-      current.includes(value) 
-        ? current.filter(v => v !== value) 
-        : [...current, value]
+    setConfidence((current) =>
+      current.includes(value) ? current.filter((v) => v !== value) : [...current, value]
     );
   };
+
+  // Map homepage confidence to listings page param: explicit | explicit_and_likely | all
+  const confidenceParam = useMemo(() => {
+    if (confidence.length === 0) return 'all';
+    if (confidence.length === 2) return 'explicit_and_likely';
+    return confidence.includes('Explicit') ? 'explicit' : 'explicit_and_likely';
+  }, [confidence]);
+
+  // Build /listings URL with current filter values (same params as listings page uses)
+  const listingsUrl = useMemo(() => {
+    const params = new URLSearchParams();
+    const loc = location.trim();
+    if (loc) params.set('city', loc);
+    if (maxBudget.trim()) params.set('max_budget', maxBudget.trim());
+    if (confidenceParam && confidenceParam !== 'all') params.set('confidence', confidenceParam);
+    const q = params.toString();
+    return q ? `/listings?${q}` : '/listings';
+  }, [location, maxBudget, confidenceParam]);
 
   return (
     <div className="flex flex-col gap-20 pb-20">
@@ -61,18 +79,24 @@ export default function Home() {
             <div className="w-full max-w-3xl bg-background rounded-2xl shadow-xl border p-2 flex flex-col md:flex-row items-center gap-2">
               <div className="relative flex-1 w-full">
                 <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  placeholder="Edinburgh, G12, Aberdeen..." 
-                  className="pl-10 h-12 border-none focus-visible:ring-0 text-base" 
+                <Input
+                  placeholder="Edinburgh, G12, Aberdeen..."
+                  className="pl-10 h-12 border-none focus-visible:ring-0 text-base"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  aria-label="Location"
                 />
               </div>
               <div className="h-8 w-px bg-border hidden md:block" />
               <div className="relative flex-1 w-full">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground font-medium text-sm">£</span>
-                <Input 
+                <Input
                   type="number"
-                  placeholder="Max Budget" 
-                  className="pl-7 h-12 border-none focus-visible:ring-0 text-base" 
+                  placeholder="Max Budget"
+                  className="pl-7 h-12 border-none focus-visible:ring-0 text-base"
+                  value={maxBudget}
+                  onChange={(e) => setMaxBudget(e.target.value)}
+                  aria-label="Max Budget"
                 />
               </div>
               <div className="h-8 w-px bg-border hidden md:block" />
@@ -111,7 +135,7 @@ export default function Home() {
               </DropdownMenu>
 
               <Button size="lg" className="h-12 px-8 w-full md:w-auto shadow-lg shadow-primary/20" asChild>
-                <Link href="/listings">Show Properties</Link>
+                <Link href={listingsUrl}>Show Properties</Link>
               </Button>
             </div>
 
