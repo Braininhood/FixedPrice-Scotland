@@ -77,10 +77,13 @@ export default function LoginPage() {
 
   const handleOAuthLogin = async (provider: 'google' | 'facebook') => {
     try {
+      const baseUrl =
+        (typeof window !== 'undefined' && (process.env.NEXT_PUBLIC_APP_URL || window.location.origin)) || '';
+      const redirectTo = `${baseUrl}/oauth/consent`;
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/oauth/consent`,
+          redirectTo,
         },
       });
       if (error) {

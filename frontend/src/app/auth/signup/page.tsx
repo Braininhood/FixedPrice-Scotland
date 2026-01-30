@@ -162,11 +162,13 @@ function SignupPageContent() {
     try {
       // Sign out any existing session first to force account selection
       await supabase.auth.signOut();
-      
+      const baseUrl =
+        (typeof window !== 'undefined' && (process.env.NEXT_PUBLIC_APP_URL || window.location.origin)) || '';
+      const redirectTo = `${baseUrl}/oauth/consent`;
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/oauth/consent`,
+          redirectTo,
           queryParams: {
             prompt: 'select_account', // Force Google to show account picker
             access_type: 'offline',

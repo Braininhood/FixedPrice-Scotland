@@ -1,12 +1,17 @@
 import axios, { type AxiosInstance } from 'axios';
 import { supabase } from '@/lib/supabase';
 
-/** API base URL: in browser use same host as page (so both IP and DNS work); otherwise use env. */
+/** API base URL: prefer env so production can use same-origin /api (no port, no mixed content). */
 function getBaseURL(): string {
+  const envUrl = typeof process !== 'undefined' ? (process.env.NEXT_PUBLIC_API_URL || '').trim() : '';
+  if (envUrl) {
+    const base = envUrl.replace(/\/api\/v1\/?$/, '');
+    return base ? `${base}/api/v1` : envUrl;
+  }
   if (typeof window !== 'undefined') {
     return `${window.location.protocol}//${window.location.hostname}:8000/api/v1`;
   }
-  return (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_API_URL) || '';
+  return '';
 }
 
 const apiClient: AxiosInstance = axios.create({
