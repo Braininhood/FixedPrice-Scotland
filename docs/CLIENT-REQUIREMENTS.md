@@ -2,10 +2,10 @@
 
 ## ✅ What We Already Have
 
-1. ✅ **Supabase Project URL**: `https://oyqzmcsmigpekhmlzhoz.supabase.co`
-2. ✅ **Supabase Anon Key**: `sb_publishable_p3mqDW9xvvOBuqupcFLJyw_oj5K4TmR`
+1. ✅ **Supabase Project URL**: (set in frontend/.env.local as NEXT_PUBLIC_SUPABASE_URL)
+2. ✅ **Supabase Anon Key**: (set in frontend/.env.local as NEXT_PUBLIC_SUPABASE_ANON_KEY)
 3. ✅ **OpenAI API Key**: Provided
-4. ✅ **Google Maps API Key**: `AIzaSyCHEjIDd9JI0xMOXyp7WILxeFvwUsB---0`
+4. ✅ **Google Maps API Key**: (set in frontend/.env.local as NEXT_PUBLIC_GOOGLE_MAPS_API_KEY)
 5. ✅ **Email (Temporary)**: Gmail SMTP for development
 
 ---

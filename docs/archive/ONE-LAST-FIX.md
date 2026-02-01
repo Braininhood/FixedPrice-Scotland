@@ -29,7 +29,7 @@ SELECT
   u.email,
   COALESCE(u.raw_user_meta_data->>'full_name', 'User'),
   CASE 
-    WHEN u.email = 'dommovoy@gmail.com' THEN 'admin'
+    WHEN u.email = '[YOUR_EMAIL]' THEN 'admin'
     ELSE 'buyer'
   END as role
 FROM auth.users u

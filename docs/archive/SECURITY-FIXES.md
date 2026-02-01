@@ -10,7 +10,7 @@ This document summarizes all the security and code quality improvements made to 
 
 **Solution:**
 - Generated cryptographically secure JWT secret using `secrets.token_urlsafe(32)`
-- Updated `.env` with new secure secret: `42CLw5ua_BzszA543OnWJNhlgmv8Bs6ItgOMv_vmqXg`
+- Updated `.env` with SUPABASE_JWT_SECRET (from Supabase Settings → API)
 - Removed default value from `config.py` - now requires explicit configuration
 - Updated `.env.example` with clear instructions
 

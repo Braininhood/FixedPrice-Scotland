@@ -6,7 +6,7 @@ The resource at “http://127.0.0.1:3000/_next/static/media/797e433ab948586e-s.p
 I can see from your screenshots:
 
 ### Database (Screenshot 1):
-✅ **dommovoy@gmail.com** - role: **admin** (CORRECT!)
+✅ **[YOUR_EMAIL]** - role: **admin** (CORRECT!)
 ✅ 4 test users created
 ✅ All profiles exist
 ✅ SQL script ran successfully!
@@ -41,7 +41,7 @@ The app is using a cached token from BEFORE you ran the SQL script. You need to 
 
 ### Step 3: Login Again
 1. Go to http://localhost:3000/auth/login
-2. Login with **dommovoy@gmail.com**
+2. Login with **[YOUR_EMAIL]**
 3. Enter your password
 
 ### Step 4: Check Your Role
@@ -95,7 +95,7 @@ Check email: Invoice should arrive
 ## 📋 Quick Checklist:
 
 - [x] ✅ Database setup complete (SQL ran successfully)
-- [x] ✅ Your profile exists (dommovoy@gmail.com)
+- [x] ✅ Your profile exists ([YOUR_EMAIL])
 - [x] ✅ Your role is 'admin' in database
 - [ ] ⚠️ **Logout from app** ← DO THIS NOW
 - [ ] ⚠️ **Clear browser data** ← DO THIS NOW

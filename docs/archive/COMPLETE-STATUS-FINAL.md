@@ -35,12 +35,12 @@
 -- Step 1: Verify your profile
 SELECT id, email, role, created_at 
 FROM user_profiles 
-WHERE email = 'dommovoy@gmail.com';
+WHERE email = '[YOUR_EMAIL]';
 
 -- Step 2: Ensure you're admin
 UPDATE user_profiles 
 SET role = 'admin', updated_at = NOW() 
-WHERE email = 'dommovoy@gmail.com';
+WHERE email = '[YOUR_EMAIL]';
 
 -- Step 3: Create profiles for ALL users who don't have them
 INSERT INTO user_profiles (id, email, full_name, role)
@@ -88,7 +88,7 @@ ORDER BY u.created_at DESC;
    - Added `SUPABASE_JWT_SECRET` field
 
 3. ✅ **`backend/.env`**
-   - Added `SUPABASE_JWT_SECRET=42CLw5ua_BzszA543OnWJNhlgmv8Bs6ItgOMv_vmqXg`
+   - Added `SUPABASE_JWT_SECRET=[REDACTED - set from Supabase Settings → API → JWT Secret]`
 
 4. ✅ **`backend/app/core/dependencies.py`**
    - Improved `check_role()` error handling
@@ -106,7 +106,7 @@ ORDER BY u.created_at DESC;
 
 Your Supabase project migrated from **Legacy HS256 JWT signing** to **ECC (P-256) keys** a day ago. Your current JWT tokens are still signed with the old HS256 algorithm, but the backend was only trying to validate with ES256/RS256 (new algorithms).
 
-**Solution:** Added the Legacy JWT Secret (`42CLw5ua_BzszA543OnWJNhlgmv8Bs6ItgOMv_vmqXg`) to `.env` and made the backend support all 3 algorithms.
+**Solution:** Added the Legacy JWT Secret (from Supabase Settings → API) to `.env` as SUPABASE_JWT_SECRET and made the backend support all 3 algorithms.
 
 ---
 

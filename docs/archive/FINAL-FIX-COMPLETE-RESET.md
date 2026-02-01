@@ -40,7 +40,7 @@ Wait for: `Application startup complete.`
 ### Step 3: Login Fresh
 
 1. Go to: http://localhost:3000/auth/login
-2. Login with: `dommovoy@gmail.com`
+2. Login with: `[YOUR_EMAIL]`
 3. Enter password
 4. Click Login
 
@@ -89,7 +89,7 @@ SELECT
   CASE WHEN u.id = p.id THEN 'MATCH' ELSE 'MISMATCH' END as status
 FROM auth.users u
 LEFT JOIN user_profiles p ON u.email = p.email
-WHERE u.email = 'dommovoy@gmail.com';
+WHERE u.email = '[YOUR_EMAIL]';
 ```
 
 Should show: `MATCH` and role `admin`

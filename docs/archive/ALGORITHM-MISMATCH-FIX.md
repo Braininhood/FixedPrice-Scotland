@@ -24,7 +24,7 @@ Updated `backend/app/core/security.py` to support **ALL 3 algorithms**:
 ### Step 1: Get Your Supabase JWT Secret
 
 1. Go to https://supabase.com
-2. Open project: `oyqzmcsmigpekhmlzhoz`
+2. Open project: (your Supabase project from dashboard)
 3. Click **"Settings"** (gear icon, bottom left)
 4. Click **"API"**
 5. Scroll to **"JWT Settings"**

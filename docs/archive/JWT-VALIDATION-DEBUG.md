@@ -58,7 +58,7 @@ Copy the JWT validation error from Terminal 11 and share it with me.
 ## ✅ Quick Test - Check if Supabase JWKS is reachable:
 
 ```powershell
-curl https://oyqzmcsmigpekhmlzhoz.supabase.co/auth/v1/.well-known/jwks.json
+curl https://[YOUR_PROJECT_REF].supabase.co/auth/v1/.well-known/jwks.json
 ```
 
 Should return JSON with signing keys.

@@ -32,7 +32,7 @@
 - ✅ Subscription error logging
 
 ### 4. Configuration
-- ✅ **Email SMTP configured** (dommovoy@gmail.com)
+- ✅ **Email SMTP configured** ([YOUR_EMAIL])
 - ✅ Supabase connected
 - ✅ Backend running (http://localhost:8000)
 - ✅ Frontend running (http://localhost:3000)
@@ -139,13 +139,13 @@ Once you run the SQL script, everything will work:
 ### Quick Troubleshooting
 
 **Problem:** SQL script gives error  
-**Solution:** Check you changed line 24 to your email (dommovoy@gmail.com)
+**Solution:** Check you changed line 24 to your email ([YOUR_EMAIL])
 
 **Problem:** Still 403 errors after setup  
 **Solution:** Logout, clear browser data, login again
 
 **Problem:** Can't see admin panel  
-**Solution:** Run `UPDATE user_profiles SET role = 'admin' WHERE email = 'dommovoy@gmail.com';`
+**Solution:** Run `UPDATE user_profiles SET role = 'admin' WHERE email = '[YOUR_EMAIL]';`
 
 **Problem:** Email not arriving  
 **Solution:** Check spam folder, check backend logs for errors
@@ -223,8 +223,8 @@ Once you run the SQL script, everything will work:
 
 ---
 
-**Your Project:** https://oyqzmcsmigpekhmlzhoz.supabase.co  
-**Your Email:** dommovoy@gmail.com ✅ (configured)  
+**Your Project:** https://[YOUR_PROJECT_REF].supabase.co  
+**Your Email:** [YOUR_EMAIL] ✅ (configured)  
 **Next Step:** Open `YOUR-ACTION-PLAN.md` and follow it!
 
 ---

@@ -3,7 +3,7 @@
 ## What I've Checked For You:
 
 ### ✅ **SQL File Edited Correctly**
-- Line 31 shows: `WHERE email = 'dommovoy@gmail.com';`
+- Line 31 shows: `WHERE email = '[YOUR_EMAIL]';`
 - ✅ **CORRECT!** You've successfully updated your email address
 
 ### ✅ **Backend is Running**
@@ -12,7 +12,7 @@
 
 ### ✅ **Email Configuration**
 - `backend/.env` has:
-  - `MAIL_USERNAME=dommovoy@gmail.com`
+  - `MAIL_USERNAME=[YOUR_EMAIL]`
   - `MAIL_PASSWORD=***configured***`
   - `MAIL_SERVER=smtp.gmail.com`
 - ✅ **CORRECT!** Email is configured
@@ -28,7 +28,7 @@ You've edited the file correctly ✅. Now you need to:
 1. **Open Supabase:**
    - Go to: https://supabase.com
    - Login
-   - Open project: `oyqzmcsmigpekhmlzhoz`
+   - Open project: (your Supabase project from dashboard)
 
 2. **Open SQL Editor:**
    - Click "SQL Editor" in left sidebar
@@ -55,14 +55,14 @@ After running the SQL, verify it worked:
 
 ```sql
 -- Check your profile
-SELECT email, role FROM user_profiles WHERE email = 'dommovoy@gmail.com';
+SELECT email, role FROM user_profiles WHERE email = '[YOUR_EMAIL]';
 ```
 
 **Expected Output:**
 ```
 email               | role
 --------------------+-------
-dommovoy@gmail.com  | admin
+[YOUR_EMAIL]  | admin
 ```
 
 If you see this ✅, **you're done with database setup!**
@@ -92,7 +92,7 @@ Once database is set up:
 1. Go to: http://localhost:3000/pricing
 2. Click "Subscribe" on any plan
 3. Should see success message
-4. **Check your email (dommovoy@gmail.com)**
+4. **Check your email ([YOUR_EMAIL])**
 5. Invoice should arrive (check spam too)
 
 #### E. Check Console (Optional)
@@ -105,7 +105,7 @@ Once database is set up:
 ## 🎯 Quick Status
 
 ### ✅ What You've Done Right:
-1. ✅ Edited SQL file correctly (email is dommovoy@gmail.com)
+1. ✅ Edited SQL file correctly (email is [YOUR_EMAIL])
 2. ✅ Backend is running
 3. ✅ Email is configured
 
@@ -140,7 +140,7 @@ Once database is set up:
 
 Run this in Supabase SQL Editor:
 ```sql
-UPDATE user_profiles SET role = 'admin' WHERE email = 'dommovoy@gmail.com';
+UPDATE user_profiles SET role = 'admin' WHERE email = '[YOUR_EMAIL]';
 ```
 Then logout and login.
 

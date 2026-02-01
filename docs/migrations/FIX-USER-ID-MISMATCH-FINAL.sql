@@ -9,7 +9,7 @@ SELECT
   created_at,
   raw_user_meta_data->>'full_name' as full_name
 FROM auth.users
-WHERE email = 'dommovoy@gmail.com';
+WHERE email = '[YOUR_EMAIL]';
 
 -- Step 2: Check what's in user_profiles for your email
 SELECT 
@@ -18,16 +18,16 @@ SELECT
   role,
   created_at
 FROM user_profiles
-WHERE email = 'dommovoy@gmail.com';
+WHERE email = '[YOUR_EMAIL]';
 
 -- Step 3: DELETE the wrong profile (if it exists)
-DELETE FROM user_profiles WHERE email = 'dommovoy@gmail.com';
+DELETE FROM user_profiles WHERE email = '[YOUR_EMAIL]';
 
 -- Step 4: CREATE profile with the CORRECT ID from JWT
 INSERT INTO user_profiles (id, email, full_name, role)
 VALUES (
   '0495c262-0def-40e3-b5e6-66ae2bd121bb',
-  'dommovoy@gmail.com',
+  '[YOUR_EMAIL]',
   'Andrii Berezutskyi',
   'admin'
 );
@@ -47,7 +47,7 @@ SELECT
   END as status
 FROM auth.users u
 LEFT JOIN user_profiles p ON u.email = p.email
-WHERE u.email = 'dommovoy@gmail.com';
+WHERE u.email = '[YOUR_EMAIL]';
 
 -- Step 6: Create trigger to prevent this in future (if not exists)
 CREATE OR REPLACE FUNCTION handle_new_user()

@@ -36,7 +36,7 @@ SELECT
   p.role
 FROM auth.users u
 LEFT JOIN user_profiles p ON u.id = p.id
-WHERE u.email = 'dommovoy@gmail.com';
+WHERE u.email = '[YOUR_EMAIL]';
 ```
 
 ---
@@ -65,7 +65,7 @@ In Supabase SQL Editor:
 INSERT INTO user_profiles (id, email, full_name, role)
 VALUES (
   'paste-your-actual-user-id-here',
-  'dommovoy@gmail.com',
+  '[YOUR_EMAIL]',
   'Andrii Berezutskyi',  -- Your name from the database screenshot
   'admin'
 )
@@ -76,7 +76,7 @@ ON CONFLICT (id) DO UPDATE SET role = 'admin';
 
 ```sql
 -- Check the profile was created
-SELECT id, email, role FROM user_profiles WHERE email = 'dommovoy@gmail.com';
+SELECT id, email, role FROM user_profiles WHERE email = '[YOUR_EMAIL]';
 ```
 
 ---
@@ -94,7 +94,7 @@ SELECT
   'Andrii Berezutskyi',
   'admin'
 FROM auth.users u
-WHERE u.email = 'dommovoy@gmail.com'
+WHERE u.email = '[YOUR_EMAIL]'
 ON CONFLICT (id) DO UPDATE 
 SET role = 'admin', 
     email = EXCLUDED.email;

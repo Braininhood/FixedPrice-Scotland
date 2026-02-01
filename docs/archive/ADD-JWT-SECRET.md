@@ -16,7 +16,7 @@ JWT validation failed: InvalidAlgorithmError: The specified alg value is not all
 ### Step 1: Get JWT Secret from Supabase
 
 1. Go to: https://supabase.com
-2. Open project: `oyqzmcsmigpekhmlzhoz`
+2. Open project: (your Supabase project from dashboard)
 3. Click **"Settings"** (gear icon at bottom left)
 4. Click **"API"** in the settings menu
 5. Scroll down to **"JWT Settings"** section

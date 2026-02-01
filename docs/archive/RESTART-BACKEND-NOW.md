@@ -3,8 +3,8 @@
 ## 🎉 What I Just Did:
 
 1. ✅ **Identified the issue:** Your Supabase migrated from Legacy HS256 to ECC keys **a day ago**
-2. ✅ **Found your Legacy JWT Secret:** `42CLw5ua_BzszA543OnWJNhlgmv8Bs6ItgOMv_vmqXg`
-3. ✅ **Added to .env:** `SUPABASE_JWT_SECRET=42CLw5ua_BzszA543OnWJNhlgmv8Bs6ItgOMv_vmqXg`
+2. ✅ **Found your Legacy JWT Secret:** (set in backend/.env as SUPABASE_JWT_SECRET)
+3. ✅ **Added to .env:** `SUPABASE_JWT_SECRET=[REDACTED - set from Supabase Settings → API → JWT Secret]`
 4. ✅ **Backend code ready:** Supports ES256, RS256, AND HS256
 
 ---

@@ -6,7 +6,7 @@
 - **Site URL**: `http://localhost:3000` (for development)
 - **Authorization Path**: `/oauth/consent`
 - **Preview Authorization URL**: `http://localhost:3000/oauth/consent`
-- **Callback URL (for OAuth)**: `https://oyqzmcsmigpekhmlzhoz.supabase.co/auth/v1/callback`
+- **Callback URL (for OAuth)**: `https://[YOUR_PROJECT_REF].supabase.co/auth/v1/callback`
 
 ### Implementation Status
 
@@ -32,7 +32,7 @@
    - User authorizes the application
 
 3. **Provider Redirects to Supabase**
-   - Provider redirects to: `https://oyqzmcsmigpekhmlzhoz.supabase.co/auth/v1/callback`
+   - Provider redirects to: `https://[YOUR_PROJECT_REF].supabase.co/auth/v1/callback`
    - Supabase processes the OAuth response
 
 4. **Supabase Redirects to App**
@@ -71,7 +71,7 @@
    - Add Client ID and Secret
 
 2. **Configure Google OAuth** (if using Google):
-   - Add redirect URI: `https://oyqzmcsmigpekhmlzhoz.supabase.co/auth/v1/callback`
+   - Add redirect URI: `https://[YOUR_PROJECT_REF].supabase.co/auth/v1/callback`
    - Copy credentials to Supabase
 
 3. **Test OAuth Flow**:

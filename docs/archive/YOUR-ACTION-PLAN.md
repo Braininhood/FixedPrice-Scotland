@@ -5,8 +5,8 @@
 ### ✅ Already Configured
 - Backend running on http://localhost:8000
 - Frontend running on http://localhost:3000
-- **Email SMTP configured** (dommovoy@gmail.com)
-- Supabase connected (https://oyqzmcsmigpekhmlzhoz.supabase.co)
+- **Email SMTP configured** ([YOUR_EMAIL])
+- Supabase connected (https://[YOUR_PROJECT_REF].supabase.co)
 
 ### ⚠️ **YOU NEED TO DO THIS** (10 minutes)
 - **Database setup** - Create user profiles and admin role
@@ -19,7 +19,7 @@
 
 1. Go to: https://supabase.com
 2. Login to your account
-3. Open project: `oyqzmcsmigpekhmlzhoz`
+3. Open project: (your Supabase project from dashboard)
 4. Click **"SQL Editor"** in left sidebar
 5. Click **"New Query"**
 
@@ -36,7 +36,7 @@
    WHERE email = 'CHANGE_THIS_TO_YOUR_EMAIL@example.com';
    
    -- AFTER (change to your actual email):
-   WHERE email = 'dommovoy@gmail.com';
+   WHERE email = '[YOUR_EMAIL]';
    ```
 
 3. **Copy the ENTIRE file** (Ctrl+A, Ctrl+C)
@@ -56,14 +56,14 @@ Run this query in Supabase SQL Editor:
 
 ```sql
 -- Check your profile
-SELECT email, role FROM user_profiles WHERE email = 'dommovoy@gmail.com';
+SELECT email, role FROM user_profiles WHERE email = '[YOUR_EMAIL]';
 ```
 
 **Expected result:**
 ```
 email               | role
 --------------------+-------
-dommovoy@gmail.com  | admin
+[YOUR_EMAIL]  | admin
 ```
 
 If you see your email with `admin` role, **YOU'RE DONE!** ✅
@@ -89,7 +89,7 @@ If you see your email with `admin` role, **YOU'RE DONE!** ✅
 1. Go to: http://localhost:3000/pricing
 2. Click "Subscribe" on any plan
 3. Should see success message
-4. **Check your email (dommovoy@gmail.com)** - invoice should arrive
+4. **Check your email ([YOUR_EMAIL])** - invoice should arrive
 
 ### Test 4: No More 403 Errors
 
@@ -153,7 +153,7 @@ Once the database is set up, everything will work:
 **Solution:**
 ```sql
 -- Run this in Supabase:
-UPDATE user_profiles SET role = 'admin' WHERE email = 'dommovoy@gmail.com';
+UPDATE user_profiles SET role = 'admin' WHERE email = '[YOUR_EMAIL]';
 ```
 
 Then logout and login.
@@ -168,7 +168,7 @@ Then logout and login.
 **Test email manually:**
 ```powershell
 cd "D:\FixedPrice Scotland\backend"
-python -c "from app.services.email_service import EmailService; import asyncio; asyncio.run(EmailService.send_invoice_email('dommovoy@gmail.com', 'Test', 'buyer_monthly', 19.99, 'TEST')); print('Email sent!')"
+python -c "from app.services.email_service import EmailService; import asyncio; asyncio.run(EmailService.send_invoice_email('[YOUR_EMAIL]', 'Test', 'buyer_monthly', 19.99, 'TEST')); print('Email sent!')"
 ```
 
 ---
@@ -204,7 +204,7 @@ Quick access to all documentation:
 
 **What YOU Need to Do:**
 1. ⚠️ Open Supabase SQL Editor
-2. ⚠️ Edit line 24 in `DATABASE-SETUP-AUTOMATED.sql` (change to dommovoy@gmail.com)
+2. ⚠️ Edit line 24 in `DATABASE-SETUP-AUTOMATED.sql` (change to [YOUR_EMAIL])
 3. ⚠️ Copy/paste entire script
 4. ⚠️ Click "Run"
 5. ✅ Done!
@@ -213,6 +213,6 @@ Quick access to all documentation:
 
 ---
 
-**Your Supabase Project:** https://oyqzmcsmigpekhmlzhoz.supabase.co  
-**Your Email:** dommovoy@gmail.com (already configured)  
+**Your Supabase Project:** https://[YOUR_PROJECT_REF].supabase.co  
+**Your Email:** [YOUR_EMAIL] (already configured)  
 **Time Required:** 15 minutes

@@ -12,8 +12,8 @@ This document lists all API keys, services, credentials, and access needed from 
 
 **Status**: ✅ Already Provided  
 **What We Have**:
-- Project URL: `https://oyqzmcsmigpekhmlzhoz.supabase.co`
-- Publishable API Key: `sb_publishable_p3mqDW9xvvOBuqupcFLJyw_oj5K4TmR`
+- Project URL: `[REDACTED - set in backend/.env as SUPABASE_URL]`
+- Publishable API Key: `[REDACTED - set in frontend/.env.local as NEXT_PUBLIC_SUPABASE_ANON_KEY]`
 
 **What We Still Need**:
 - [x] **Service Role Key** (for admin operations) ✅ **RECEIVED**
@@ -58,7 +58,7 @@ This document lists all API keys, services, credentials, and access needed from 
 
 **Status**: ✅ Already Provided  
 **What We Have**:
-- API Key: `AIzaSyCHEjIDd9JI0xMOXyp7WILxeFvwUsB---0`
+- API Key: `[REDACTED - set in frontend/.env.local as NEXT_PUBLIC_GOOGLE_MAPS_API_KEY]`
 
 **What We Need**:
 - [x] **API Key** ✅ (Already provided)
@@ -83,8 +83,8 @@ This document lists all API keys, services, credentials, and access needed from 
 
 **Status**: ✅ Temporary Gmail Provided  
 **What We Have** (Temporary for Development):
-- Email: `dommovoy@gmail.com`
-- App Password: `ruym votz yhuw qfsu`
+- Email: `[REDACTED - set in backend/.env as MAIL_USERNAME]`
+- App Password: `[REDACTED - set in backend/.env as MAIL_PASSWORD]`
 - SMTP Server: `smtp.gmail.com`
 - Port: `587`
 

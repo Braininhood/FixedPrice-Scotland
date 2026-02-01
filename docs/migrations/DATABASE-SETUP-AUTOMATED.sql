@@ -28,7 +28,7 @@ ON CONFLICT (id) DO NOTHING;
 
 UPDATE user_profiles 
 SET role = 'admin'
-WHERE email = 'dommovoy@gmail.com';
+WHERE email = '[YOUR_EMAIL]';
 
 -- If you know your specific email, uncomment and use this instead:
 -- UPDATE user_profiles 

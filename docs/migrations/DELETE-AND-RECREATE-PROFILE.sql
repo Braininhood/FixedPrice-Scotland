@@ -5,7 +5,7 @@
 -- ================================================================
 
 -- Step 1: Delete ALL profiles for your email (clean slate)
-DELETE FROM user_profiles WHERE email = 'dommovoy@gmail.com';
+DELETE FROM user_profiles WHERE email = '[YOUR_EMAIL]';
 
 -- Step 2: Create fresh profile with EXACT ID from auth.users
 INSERT INTO user_profiles (id, email, full_name, role)
@@ -15,7 +15,7 @@ SELECT
   COALESCE(u.raw_user_meta_data->>'full_name', 'Andrii Berezutskyi'),
   'admin'
 FROM auth.users u
-WHERE u.email = 'dommovoy@gmail.com';
+WHERE u.email = '[YOUR_EMAIL]';
 
 -- Step 3: Verify the IDs match
 SELECT 
@@ -31,7 +31,7 @@ SELECT
   END as id_status
 FROM auth.users u
 INNER JOIN user_profiles p ON u.email = p.email
-WHERE u.email = 'dommovoy@gmail.com';
+WHERE u.email = '[YOUR_EMAIL]';
 
 -- ================================================================
 -- EXPECTED OUTPUT:

@@ -349,7 +349,7 @@ nano .env.local
 NEXT_PUBLIC_API_URL=http://13.134.11.158:8000/api/v1
 
 # Supabase (Project Settings → API)
-NEXT_PUBLIC_SUPABASE_URL=https://oyqzmcsmigpekhmlzhoz.supabase.co
+NEXT_PUBLIC_SUPABASE_URL=https://[YOUR_PROJECT_REF].supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.YOUR_ANON_KEY_FROM_SUPABASE
 
 # Stripe (optional; Dashboard → Developers → API keys)

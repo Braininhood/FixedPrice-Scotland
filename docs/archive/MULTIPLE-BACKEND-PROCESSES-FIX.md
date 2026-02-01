@@ -63,7 +63,7 @@ Then restart backend (Step 2).
 2. Wait 5 seconds
 3. Reopen browser
 4. Go to: http://localhost:3000
-5. Login at `/auth/login` with `dommovoy@gmail.com`
+5. Login at `/auth/login` with `[YOUR_EMAIL]`
 
 ### Step 5: Verify Success
 
@@ -102,7 +102,7 @@ The database might have the wrong profile. Run this in Supabase:
 
 ```sql
 -- Delete ALL profiles for your email
-DELETE FROM user_profiles WHERE email = 'dommovoy@gmail.com';
+DELETE FROM user_profiles WHERE email = '[YOUR_EMAIL]';
 
 -- Recreate with correct ID from auth.users
 INSERT INTO user_profiles (id, email, full_name, role)
@@ -112,10 +112,10 @@ SELECT
   'Andrii Berezutskyi',
   'admin'
 FROM auth.users u
-WHERE u.email = 'dommovoy@gmail.com';
+WHERE u.email = '[YOUR_EMAIL]';
 
 -- Verify
-SELECT * FROM user_profiles WHERE email = 'dommovoy@gmail.com';
+SELECT * FROM user_profiles WHERE email = '[YOUR_EMAIL]';
 ```
 
 ---

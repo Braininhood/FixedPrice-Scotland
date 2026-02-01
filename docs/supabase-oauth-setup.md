@@ -23,7 +23,7 @@ This error occurs when trying to use OAuth authentication (Google, Facebook, etc
      - **Google Client Secret** (from Google Cloud Console)
    - **Site URL**: `http://localhost:3000` (for development)
    - **Authorization Path**: `/oauth/consent`
-   - **Callback URL**: `https://oyqzmcsmigpekhmlzhoz.supabase.co/auth/v1/callback`
+   - **Callback URL**: `https://[YOUR_PROJECT_REF].supabase.co/auth/v1/callback`
 
 4. **Enable Facebook OAuth** (Optional)
    - Click on **Facebook**
@@ -41,7 +41,7 @@ This error occurs when trying to use OAuth authentication (Google, Facebook, etc
 4. Go to **Credentials** → **Create Credentials** → **OAuth 2.0 Client ID**
 5. Application type: **Web application**
 6. Authorized redirect URIs:
-   - `https://oyqzmcsmigpekhmlzhoz.supabase.co/auth/v1/callback` (Supabase callback)
+   - `https://[YOUR_PROJECT_REF].supabase.co/auth/v1/callback` (Supabase callback)
    - `http://localhost:3000/oauth/consent` (for local development)
 7. Copy **Client ID** and **Client Secret** to Supabase
 
@@ -51,7 +51,7 @@ This error occurs when trying to use OAuth authentication (Google, Facebook, etc
 2. Create a new app
 3. Add **Facebook Login** product
 4. Settings → Basic:
-   - Add **Valid OAuth Redirect URIs**: `https://oyqzmcsmigpekhmlzhoz.supabase.co/auth/v1/callback`
+   - Add **Valid OAuth Redirect URIs**: `https://[YOUR_PROJECT_REF].supabase.co/auth/v1/callback`
 5. Copy **App ID** and **App Secret** to Supabase
 
 ## Alternative: Use Email/Password Only
@@ -68,7 +68,7 @@ The application will work perfectly fine with just email/password authentication
 
 - **Site URL**: `http://localhost:3000` (for development)
 - **Authorization Path**: `/oauth/consent`
-- **Callback URL**: `https://oyqzmcsmigpekhmlzhoz.supabase.co/auth/v1/callback`
+- **Callback URL**: `https://[YOUR_PROJECT_REF].supabase.co/auth/v1/callback`
 - **OAuth Consent Page**: Implemented at `/app/oauth/consent/page.tsx`
 
 ## Current Status

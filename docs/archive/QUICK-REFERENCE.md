@@ -4,7 +4,7 @@
 
 ### 1. JWT Secret ✅
 - **Before:** `your-secret-key-change-in-production`
-- **After:** `42CLw5ua_BzszA543OnWJNhlgmv8Bs6ItgOMv_vmqXg`
+- **After:** SUPABASE_JWT_SECRET in .env (from Supabase Settings → API)
 - **Location:** `backend/.env`
 
 ### 2. Input Validation ✅

@@ -14,13 +14,13 @@ But your profile in the database has a **different ID**!
 
 ```sql
 -- Step 1: DELETE the wrong profile
-DELETE FROM user_profiles WHERE email = 'dommovoy@gmail.com';
+DELETE FROM user_profiles WHERE email = '[YOUR_EMAIL]';
 
 -- Step 2: CREATE profile with CORRECT ID from JWT
 INSERT INTO user_profiles (id, email, full_name, role)
 VALUES (
   '0495c262-0def-40e3-b5e6-66ae2bd121bb',
-  'dommovoy@gmail.com',
+  '[YOUR_EMAIL]',
   'Andrii Berezutskyi',
   'admin'
 );
@@ -37,7 +37,7 @@ SELECT
   END as status
 FROM auth.users u
 LEFT JOIN user_profiles p ON u.email = p.email
-WHERE u.email = 'dommovoy@gmail.com';
+WHERE u.email = '[YOUR_EMAIL]';
 ```
 
 ---

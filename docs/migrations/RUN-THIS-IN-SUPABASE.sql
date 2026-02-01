@@ -1,7 +1,7 @@
 -- ================================================================
 -- COPY THIS ENTIRE FILE AND PASTE INTO SUPABASE SQL EDITOR
 -- ================================================================
--- Your email: dommovoy@gmail.com
+-- Your email: [YOUR_EMAIL]
 -- Time: 5 minutes
 -- ================================================================
 
@@ -21,7 +21,7 @@ ON CONFLICT (id) DO NOTHING;
 -- Step 2: Make YOU an admin
 UPDATE user_profiles 
 SET role = 'admin'
-WHERE email = 'dommovoy@gmail.com';
+WHERE email = '[YOUR_EMAIL]';
 
 -- Step 3: Create trigger for future users
 CREATE OR REPLACE FUNCTION public.handle_new_user()
@@ -56,12 +56,12 @@ SELECT
   (SELECT COUNT(*) FROM user_profiles WHERE role = 'admin') as admins;
 
 -- Step 5: Check YOUR profile
-SELECT email, role, created_at FROM user_profiles WHERE email = 'dommovoy@gmail.com';
+SELECT email, role, created_at FROM user_profiles WHERE email = '[YOUR_EMAIL]';
 
 -- ================================================================
 -- EXPECTED OUTPUT:
 -- ================================================================
 -- Query 1-3: Should complete without errors
 -- Query 4: Should show equal numbers for auth_users and user_profiles
--- Query 5: Should show: dommovoy@gmail.com | admin | [timestamp]
+-- Query 5: Should show: [YOUR_EMAIL] | admin | [timestamp]
 -- ================================================================

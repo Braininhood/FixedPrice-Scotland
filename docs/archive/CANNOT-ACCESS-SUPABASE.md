@@ -16,7 +16,7 @@ I **don't have access** to:
 ### Created: `RUN-THIS-IN-SUPABASE.sql`
 
 This is a **simplified, ready-to-copy** SQL script with:
-- ✅ Your email already filled in (dommovoy@gmail.com)
+- ✅ Your email already filled in ([YOUR_EMAIL])
 - ✅ All necessary SQL commands
 - ✅ Verification queries at the end
 - ✅ Expected output documented
@@ -28,7 +28,7 @@ This is a **simplified, ready-to-copy** SQL script with:
 ### Step 1: Open Supabase
 1. Go to: https://supabase.com
 2. Login with your credentials
-3. Open project: `oyqzmcsmigpekhmlzhoz`
+3. Open project: (your Supabase project from dashboard)
 4. Click "SQL Editor" in sidebar
 5. Click "New Query"
 
@@ -47,7 +47,7 @@ This is a **simplified, ready-to-copy** SQL script with:
 ```
 ✓ Queries completed
 ✓ auth_users: X, user_profiles: X (same number)
-✓ dommovoy@gmail.com | admin | [timestamp]
+✓ [YOUR_EMAIL] | admin | [timestamp]
 ```
 
 ---
