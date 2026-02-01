@@ -52,7 +52,7 @@ In the Scottish property market, most listings are **Offers Over**, which leads 
 - **Roles** – `admin`, `agent`, `buyer` with role-based access control
 - **Rate limiting** – SlowAPI on sensitive endpoints
 - **Email** – welcome, subscription, search alerts, invoices (Jinja2 templates)
-- **No scraping** – manual curation + official APIs/feeds only (see [data-sources-ingestion.md](docs/data-sources-ingestion.md))
+- **No scraping** – manual curation + official APIs/feeds only. Docs available on request.
 
 ---
 
@@ -92,12 +92,6 @@ fixedprice-scotland/
 │   ├── main.py               # FastAPI app entry
 │   ├── requirements.txt
 │   └── .env.example
-├── docs/                     # Documentation
-│   ├── migrations/           # SQL scripts (Supabase migrations)
-│   ├── portal-connections.md # How Rightmove, Zoopla, ESPC, etc. connect
-│   ├── data-sources-ingestion.md
-│   ├── aws-setup-guide.md
-│   └── ...
 ├── tests/                    # Test suite
 │   ├── test_api/             # Pytest API tests
 │   ├── frontend/             # Jest frontend tests
@@ -107,7 +101,7 @@ fixedprice-scotland/
 └── README.md
 ```
 
-**Note:** Supabase is used as a remote service (configured via env vars). Database migrations live in `docs/migrations/` and are applied in the Supabase project. See [docs/PROJECT-STRUCTURE.md](docs/PROJECT-STRUCTURE.md) for detailed structure.
+**Note:** Supabase is used as a remote service (configured via env vars). Documentation (migrations, setup, deployment) is available on request.
 
 ---
 
@@ -197,7 +191,7 @@ If you see **Backend unreachable** or **Network Error**, start the backend first
 | `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` | No | For Stripe payments |
 | `ZOOPLA_CLIENT_ID`, `ZOOPLA_CLIENT_SECRET`, `ZOOPLA_ENABLED` | No | Zoopla API (Hometrack agreement) |
 
-\* See [backend/.env.example](backend/.env.example) and [docs/](docs/) for details.
+\* See [backend/.env.example](backend/.env.example) for details. Full docs available on request.
 
 ### Frontend (`frontend/.env.local`)
 
@@ -211,7 +205,7 @@ If you see **Backend unreachable** or **Network Error**, start the backend first
 | `NEXT_PUBLIC_APP_URL` | No | OAuth redirect base (e.g. production URL) |
 | `NEXT_PUBLIC_FORCE_HTTP` | No | Redirect HTTPS→HTTP when using self-signed cert |
 
-\* When served over HTTPS via Nginx, the frontend uses same-origin `/api/v1` and `/health` so Nginx can proxy to the backend. See [docs/nginx-fixedprice-scotland.conf](docs/nginx-fixedprice-scotland.conf).
+\* When served over HTTPS via Nginx, the frontend uses same-origin `/api/v1` and `/health` so Nginx can proxy to the backend. Nginx config available on request.
 
 ---
 
@@ -240,7 +234,7 @@ Listings come from:
 - **Manual ingestion** – Rightmove, Zoopla, ESPC, OnTheMarket, S1homes, agent sites (Rettie, Ferhome, KW Scotland, etc.)
 - **Zoopla API** – when Hometrack commercial access is granted
 
-**No scraping.** See [docs/portal-connections.md](docs/portal-connections.md) for how each portal connects and [docs/data-sources-ingestion.md](docs/data-sources-ingestion.md) for ingestion policies.
+**No scraping.** Portal connections and ingestion policy docs available on request.
 
 ---
 
@@ -266,27 +260,13 @@ See [tests/README.md](tests/README.md), [tests/SETUP.md](tests/SETUP.md), and [t
 
 ## Deployment
 
-- **AWS EC2**: [docs/aws-setup-guide.md](docs/aws-setup-guide.md) – Nginx, PM2, systemd, SSL
-- **Nginx config**: [docs/nginx-fixedprice-scotland.conf](docs/nginx-fixedprice-scotland.conf)
-- **Options**: [docs/deployment-options.md](docs/deployment-options.md)
+AWS EC2 deployment guide (Nginx, PM2, systemd, SSL) and Nginx config are **available on request**.
 
 ---
 
 ## Documentation
 
-| Doc | Description |
-|-----|-------------|
-| [SETUP-GUIDE.md](docs/SETUP-GUIDE.md) | Complete setup guide |
-| [SETUP-CHECKLIST.md](docs/SETUP-CHECKLIST.md) | Setup checklist |
-| [ADMIN-FULL-SETUP.md](docs/ADMIN-FULL-SETUP.md) | Admin dashboard setup |
-| [PROJECT-STRUCTURE.md](docs/PROJECT-STRUCTURE.md) | Detailed project structure |
-| [tech-stack.md](docs/tech-stack.md) | Technology stack details |
-| [implementation-plan.md](docs/implementation-plan.md) | Roadmap |
-| [portal-connections.md](docs/portal-connections.md) | How portals & agents connect |
-| [data-sources-ingestion.md](docs/data-sources-ingestion.md) | Data sources & ingestion policy |
-| [zoopla-api-integration.md](docs/zoopla-api-integration.md) | Zoopla API setup |
-| [aws-setup-guide.md](docs/aws-setup-guide.md) | AWS EC2 deployment |
-| [docs/archive/](docs/archive/) | Archived troubleshooting docs |
+All documentation (setup guides, AWS deployment, portal connections, migrations, Nginx config, etc.) is **available on request**. Contact the project maintainer.
 
 ---
 

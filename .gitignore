@@ -62,4 +62,4 @@ Thumbs.db
 # Project – exclude from GitHub
 supabase/
 tests/
-# docs/  # Include docs in GitHub (setup, guides, portal connections, etc.)
+docs/
