@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field, HttpUrl, validator
 class ManualListingInput(BaseModel):
     """Pydantic model for manual listing entry with validation."""
     listing_url: str = Field(..., description="URL of the property listing")
-    source: str = Field(..., description="Source: rightmove, zoopla, espc, s1homes, agent, or other")
+    source: str = Field(..., description="Source: rightmove, zoopla, espc, s1homes, onthemarket, agent, or other")
     address: str = Field(..., min_length=5, description="Full address of the property")
     postcode: Optional[str] = Field(None, description="Postcode (optional but recommended)")
     city: Optional[str] = Field(None, description="City name")
@@ -19,7 +19,7 @@ class ManualListingInput(BaseModel):
     
     @validator("source")
     def validate_source(cls, v):
-        valid_sources = ["rightmove", "zoopla", "espc", "s1homes", "agent", "other"]
+        valid_sources = ["rightmove", "zoopla", "espc", "s1homes", "onthemarket", "agent", "other"]
         if v.lower() not in valid_sources:
             raise ValueError(f"Source must be one of: {', '.join(valid_sources)}")
         return v.lower()

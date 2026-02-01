@@ -6,14 +6,15 @@ from app.models.listing import ListingCreate
 
 class IngestionService:
     # Valid property portal sources
-    VALID_SOURCES = ["rightmove", "zoopla", "espc", "s1homes", "agent", "other"]
+    VALID_SOURCES = ["rightmove", "zoopla", "espc", "s1homes", "onthemarket", "agent", "other"]
     
     # URL patterns for known portals
     URL_PATTERNS = {
         "rightmove": r"rightmove\.co\.uk",
         "zoopla": r"zoopla\.co\.uk",
         "espc": r"espc\.com",
-        "s1homes": r"s1homes\.com"
+        "s1homes": r"s1homes\.com",
+        "onthemarket": r"onthemarket\.com",
     }
 
     def validate_url(self, url: str) -> tuple[bool, Optional[str]]:

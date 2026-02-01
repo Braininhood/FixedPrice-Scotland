@@ -27,7 +27,7 @@ async def ingest_manual_listing(
     
     **Required fields:**
     - listing_url: URL of the property listing
-    - source: rightmove, zoopla, espc, s1homes, agent, or other
+    - source: rightmove, zoopla, espc, s1homes, onthemarket, agent, or other
     - address: Full address (minimum 5 characters)
     - price_raw: Raw price text (e.g., "Fixed Price £250,000")
     
