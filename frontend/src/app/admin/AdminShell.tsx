@@ -15,7 +15,10 @@ import {
   Loader2,
   BarChart3,
   ExternalLink,
+  Menu,
 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 
 const nav = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
@@ -77,10 +80,95 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
     );
   }
 
+  const navItems = nav.filter(
+    (item) => isAdmin || item.href === '/admin' || item.href.startsWith('/admin/listings')
+  );
+
+  const NavLinks = () =>
+    navItems.map((item) => {
+      const isActive =
+        pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href));
+      const Icon = item.icon;
+      return (
+        <Link
+          key={item.href}
+          href={item.href}
+          className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors min-h-[44px] ${
+            isActive
+              ? 'bg-primary text-primary-foreground'
+              : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+          }`}
+        >
+          <Icon className="h-5 w-5 shrink-0" />
+          {item.label}
+        </Link>
+      );
+    });
+
+  const SidebarFooter = () => (
+    <div className="p-3 border-t border-border space-y-0.5">
+      {isAdmin && (
+        <>
+          <a
+            href={apiDocsUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground min-h-[44px] items-center"
+          >
+            <ExternalLink className="h-4 w-4" />
+            API Docs
+          </a>
+          <a
+            href={databaseUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground min-h-[44px] items-center"
+          >
+            <ExternalLink className="h-4 w-4" />
+            Database (Supabase)
+          </a>
+        </>
+      )}
+      <Link
+        href="/account"
+        className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground min-h-[44px]"
+      >
+        <ChevronLeft className="h-4 w-4" />
+        Back to account
+      </Link>
+    </div>
+  );
+
   return (
-    <div className="flex min-h-[calc(100vh-0px)] bg-background">
-      {/* Sidebar */}
-      <aside className="w-64 border-r border-border bg-card flex flex-col shrink-0">
+    <div className="flex flex-col lg:flex-row min-h-[100dvh] bg-background">
+      {/* Mobile: menu button + sheet */}
+      <div className="lg:hidden flex items-center gap-2 border-b border-border bg-card px-4 py-3 shrink-0">
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-10 w-10 min-h-[44px] min-w-[44px]" aria-label="Open admin menu">
+              <Menu className="h-5 w-5" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-full max-w-[min(100vw,22rem)] overflow-y-auto p-0 flex flex-col">
+            <SheetHeader className="p-4 border-b border-border text-left">
+              <SheetTitle className="flex items-center gap-2">
+                <Shield className="h-6 w-6 text-primary" />
+                {isAdmin ? 'Admin' : 'Agent'}
+              </SheetTitle>
+            </SheetHeader>
+            <nav className="flex-1 p-3 space-y-0.5 overflow-auto">
+              <NavLinks />
+            </nav>
+            <SidebarFooter />
+          </SheetContent>
+        </Sheet>
+        <span className="font-semibold text-foreground truncate">
+          {isAdmin ? 'Admin' : 'Agent Dashboard'}
+        </span>
+      </div>
+
+      {/* Desktop sidebar */}
+      <aside className="hidden lg:flex w-64 border-r border-border bg-card flex-col shrink-0">
         <div className="p-4 border-b border-border">
           <Link href="/admin" className="flex items-center gap-2 font-semibold text-foreground">
             <Shield className="h-6 w-6 text-primary" />
@@ -88,63 +176,15 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
           </Link>
           <p className="text-xs text-muted-foreground mt-1">FixedPrice Scotland</p>
         </div>
-        <nav className="flex-1 p-3 space-y-0.5">
-          {nav
-            .filter((item) => isAdmin || item.href === '/admin' || item.href.startsWith('/admin/listings'))
-            .map((item) => {
-              const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href));
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-                    isActive
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                  }`}
-                >
-                  <Icon className="h-5 w-5 shrink-0" />
-                  {item.label}
-                </Link>
-              );
-            })}
+        <nav className="flex-1 p-3 space-y-0.5 overflow-auto min-w-0">
+          <NavLinks />
         </nav>
-        <div className="p-3 border-t border-border space-y-0.5">
-          {isAdmin && (
-            <>
-              <a
-                href={apiDocsUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                <ExternalLink className="h-4 w-4" />
-                API Docs
-              </a>
-              <a
-                href={databaseUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                <ExternalLink className="h-4 w-4" />
-                Database (Supabase)
-              </a>
-            </>
-          )}
-          <Link
-            href="/account"
-            className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
-          >
-            <ChevronLeft className="h-4 w-4" />
-            Back to account
-          </Link>
-        </div>
+        <SidebarFooter />
       </aside>
+
       {/* Main content */}
-      <main className="flex-1 overflow-auto">
-        <div className="container max-w-6xl py-6 px-4">
+      <main className="flex-1 overflow-auto min-w-0">
+        <div className="container max-w-6xl w-full py-4 sm:py-6 px-4 sm:px-6">
           {children}
         </div>
       </main>

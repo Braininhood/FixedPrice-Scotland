@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -6,6 +6,14 @@ import { Toaster } from "@/components/ui/sonner";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import ErrorBoundaryWrapper from "@/components/error-boundary-wrapper";
+
+/** Allow zoom and work at any resolution/device (accessibility). */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+};
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,6 +24,14 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+/** Allow zoom and work at any resolution/device (accessibility). */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+};
 
 export const metadata: Metadata = {
   title: "FixedPrice Scotland | Modern Real Estate Platform",
@@ -36,7 +52,7 @@ export default function RootLayout({
         <ErrorBoundaryWrapper>
           <AuthProvider>
             <Header />
-            <main className="flex-1">
+            <main className="flex-1 min-w-0 w-full">
               {children}
             </main>
             <Footer />

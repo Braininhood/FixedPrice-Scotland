@@ -343,14 +343,14 @@ function ListingsPageContent() {
     <div className="container max-w-7xl mx-auto px-4 py-8">
       {/* Header */}
       <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h1 className="text-4xl font-bold mb-2">Property Listings</h1>
-            <p className="text-muted-foreground">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+          <div className="min-w-0">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">Property Listings</h1>
+            <p className="text-muted-foreground text-sm sm:text-base">
               Discover fixed price properties across Scotland
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
             {/* View Toggle */}
             <div className="flex items-center border rounded-lg p-1">
               <Button
