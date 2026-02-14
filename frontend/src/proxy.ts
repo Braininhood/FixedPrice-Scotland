@@ -6,7 +6,7 @@ import type { NextRequest } from 'next/server';
  * Set NEXT_PUBLIC_FORCE_HTTP=true in production .env so browsers that try
  * https://13.134.11.158 get redirected to http:// after Nginx handles 443.
  */
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const forceHttp = process.env.NEXT_PUBLIC_FORCE_HTTP === 'true';
   const proto = request.headers.get('x-forwarded-proto') ?? request.nextUrl.protocol.replace(':', '');
   if (forceHttp && proto === 'https') {
