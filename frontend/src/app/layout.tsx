@@ -25,14 +25,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-/** Allow zoom and work at any resolution/device (accessibility). */
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
-};
-
 export const metadata: Metadata = {
   title: "FixedPrice Scotland | Modern Real Estate Platform",
   description: "Clever, modern solution for Scottish real estate with fixed-price transparency.",
