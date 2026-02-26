@@ -274,308 +274,789 @@ All documentation (setup guides, AWS deployment, portal connections, migrations,
 
 MIT
 
+# GCreators Project Structure
 
-# GCreators Project Roadmap
-
-## Project Overview
-**GCreators** is an AI-powered operating system for the knowledge economy that transforms human expertise into scalable, globally accessible businesses through AI twins, multilingual support, and unified infrastructure.
-
-### Technology Stack
-- **Backend**: Python (FastAPI/Django)
-- **Frontend**: React with Next.js
-- **Infrastructure**: AWS Free Tier
-- **AI Integration**: OpenAI API (GPT-4o-mini for cost optimization) + Custom Neural Network
-- **Database**: PostgreSQL (AWS RDS Free Tier) + Vector Database (Pinecone Free Tier)
+This document outlines the complete project structure for the GCreators platform.
 
 ---
 
-## Phase 1: Foundation & MVP Enhancement (Months 1-3)
+## Repository Structure
 
-### Core Infrastructure Setup
-- **Week 1-2**: AWS Infrastructure Setup
-  - Configure AWS Free Tier services
-  - Set up EC2 instances (t2.micro)
-  - Configure RDS PostgreSQL (db.t3.micro, 20GB)
-  - Set up S3 buckets for file storage (5GB free)
-  - Configure CloudFront CDN
-  - Set up AWS Lambda for serverless functions
-
-- **Week 3-4**: Backend Development
-  - Python FastAPI setup with async support
-  - User authentication system (JWT)
-  - Database schema design and migrations
-  - RESTful API endpoints for existing features
-  - File upload/download system
-  - Payment integration (Stripe)
-
-- **Week 5-6**: Frontend Development
-  - Next.js 14+ setup with App Router
-  - TypeScript configuration
-  - Tailwind CSS + shadcn/ui components
-  - Responsive design system
-  - User authentication flows
-  - Mentor/Learner dashboards
-
-- **Week 7-8**: Core Features Integration
-  - Profile management (Mentor & Learner)
-  - Digital product marketplace
-  - Consultation booking system
-  - Payment processing
-  - Email notifications (AWS SES)
-
-- **Week 9-12**: Testing & Optimization
-  - Unit and integration testing
-  - Performance optimization
-  - Security audit
-  - Bug fixes
-  - Documentation
+```
+gcreators/
+├── backend/                    # Python FastAPI Backend
+├── frontend/                   # Next.js Frontend
+├── infrastructure/             # IaC and deployment configs
+├── docs/                       # Documentation
+├── scripts/                    # Utility scripts
+├── docker-compose.yml         # Local development
+└── README.md
+```
 
 ---
 
-## Phase 2: AI Integration - Level 1 (Months 4-6)
+## Backend Structure (Python FastAPI)
 
-### AI-Powered Mentor Matching
-- **Month 4**: Data Collection & Preparation
-  - Design user profile questionnaire
-  - Collect mentor expertise data
-  - Create training dataset for matching algorithm
-  - Implement data pipeline
-  
-- **Week 1-2**: Basic AI Matching System
-  - Integrate OpenAI API (GPT-4o-mini for cost efficiency)
-  - Build prompt engineering system for mentor recommendations
-  - Create embedding system for user goals and mentor expertise
-  - Implement vector similarity search (Pinecone free tier)
-
-- **Week 3-4**: Matching Algorithm
-  - Skills and goals matching logic
-  - Collaborative filtering implementation
-  - Rating and feedback system
-  - A/B testing framework
-
-### AI Assistant (Basic Version)
-- **Month 5**: Consultation Assistant
-  - RAG (Retrieval Augmented Generation) system setup
-  - Knowledge base creation per mentor
-  - Basic Q&A functionality
-  - Context-aware responses about services/products
-
-- **Week 1-2**: Implementation
-  - Document processing pipeline
-  - Vector database integration
-  - OpenAI API integration for responses
-  - Chat interface development
-
-- **Week 3-4**: Enhancement
-  - Conversation history management
-  - Context retention
-  - Multi-turn dialogue support
-  - Response quality improvement
-
-### Cost Optimization Strategy
-- **Month 6**: AI Cost Management
-  - Implement response caching
-  - Rate limiting per user
-  - Use GPT-4o-mini (70% cheaper than GPT-4)
-  - Prompt optimization for token reduction
-  - Fallback to cached responses when possible
-
----
-
-## Phase 3: AI Twin Development (Months 7-10)
-
-### Custom Neural Network Foundation
-- **Month 7**: Neural Network Architecture
-  - Design custom transformer model architecture
-  - Set up training infrastructure (AWS SageMaker free tier)
-  - Create data collection pipeline from mentor interactions
-  - Build knowledge extraction system
-
-- **Week 1-2**: Data Pipeline
-  - Mentor content ingestion system
-  - Text preprocessing and cleaning
-  - Knowledge graph creation
-  - Training data generation
-
-- **Week 3-4**: Model Training Setup
-  - Transfer learning from open-source models (Llama 2, Mistral)
-  - Fine-tuning pipeline
-  - Model versioning system
-  - Evaluation metrics
-
-### AI Twin Core Features
-- **Month 8-9**: AI Twin Implementation
-  - Personalized knowledge base per mentor
-  - Style transfer learning (mentor's communication style)
-  - Context-aware guidance system
-  - Interactive content navigation
-
-- **Month 8 Deliverables**:
-  - AI Twin creation wizard for mentors
-  - Training data collection interface
-  - Basic personality modeling
-  - Q&A functionality
-
-- **Month 9 Deliverables**:
-  - Proactive guidance system
-  - Multi-step problem solving
-  - Goal-based recommendations
-  - Progress tracking integration
-
-### Self-Learning System
-- **Month 10**: Continuous Learning Implementation
-  - User interaction logging
-  - Feedback collection system
-  - Automatic retraining pipeline
-  - Performance monitoring dashboard
-
-- **Week 1-2**: Learning Pipeline
-  - Feedback loop implementation
-  - Quality scoring system
-  - Automated data labeling
-  - Model improvement metrics
-
-- **Week 3-4**: Deployment
-  - Blue-green deployment for models
-  - A/B testing framework
-  - Rollback mechanisms
-  - Performance monitoring
-
----
-
-## Phase 4: Global Scaling Features (Months 11-13)
-
-### Multi-Language Support
-- **Month 11**: Translation System
-  - Integration with translation APIs (AWS Translate free tier)
-  - Custom translation model for domain-specific terms
-  - Language detection
-  - Content localization system
-
-- **Week 1-2**: Implementation
-  - Automated translation pipeline
-  - Quality assurance system
-  - Language preference management
-  - Multi-language UI support
-
-- **Week 3-4**: Optimization
-  - Translation caching
-  - Context-aware translations
-  - Cultural adaptation
-  - Testing across languages
-
-### Format Conversion AI
-- **Month 12**: Content Transformation
-  - Text-to-video generation (using AWS services)
-  - Course material reformatting
-  - Presentation to course conversion
-  - Multi-format export system
-
-- **Week 1-2**: Core Features
-  - Document parsing and analysis
-  - Content structure extraction
-  - Format templates creation
-  - Conversion engine
-
-- **Week 3-4**: Enhancement
-  - Quality improvement
-  - Style preservation
-  - Automated thumbnail generation
-  - Preview system
-
-### Global Distribution
-- **Month 13**: Scalability & Performance
-  - CDN optimization for global reach
-  - Multi-region deployment strategy
-  - Performance monitoring
-  - Load balancing
+```
+backend/
+├── app/
+│   ├── __init__.py
+│   ├── main.py                         # FastAPI application entry point
+│   ├── config.py                       # Configuration management
+│   ├── database.py                     # Database connection & session
+│   │
+│   ├── api/                            # API routes
+│   │   ├── __init__.py
+│   │   ├── deps.py                     # Common dependencies (auth, db session)
+│   │   └── v1/                         # API version 1
+│   │       ├── __init__.py
+│   │       ├── auth.py                 # POST /auth/register, /auth/login
+│   │       ├── users.py                # GET/PUT /users/{id}
+│   │       ├── mentors.py              # GET /mentors, GET /mentors/{id}
+│   │       ├── learners.py             # GET /learners/{id}
+│   │       ├── products.py             # CRUD for digital products
+│   │       ├── consultations.py        # Booking management
+│   │       ├── payments.py             # Stripe integration
+│   │       ├── ai_matching.py          # POST /ai/match-mentors
+│   │       ├── ai_chat.py              # POST /ai/chat (AI Twin)
+│   │       ├── ai_translation.py       # POST /ai/translate
+│   │       └── analytics.py            # GET /analytics (mentor dashboard)
+│   │
+│   ├── models/                         # SQLAlchemy ORM models
+│   │   ├── __init__.py
+│   │   ├── base.py                     # Base model class
+│   │   ├── user.py                     # User model
+│   │   ├── mentor.py                   # Mentor profile
+│   │   ├── learner.py                  # Learner profile
+│   │   ├── product.py                  # Digital product
+│   │   ├── consultation.py             # Consultation booking
+│   │   ├── transaction.py              # Payment transactions
+│   │   ├── ai_conversation.py          # AI chat history
+│   │   ├── ai_knowledge.py             # Mentor knowledge base
+│   │   ├── ai_training_data.py         # Training data collection
+│   │   └── ai_model_version.py         # Model versioning
+│   │
+│   ├── schemas/                        # Pydantic schemas (request/response)
+│   │   ├── __init__.py
+│   │   ├── user.py                     # UserCreate, UserResponse, UserUpdate
+│   │   ├── mentor.py                   # MentorProfile, MentorResponse
+│   │   ├── learner.py                  # LearnerProfile, LearnerGoals
+│   │   ├── product.py                  # ProductCreate, ProductResponse
+│   │   ├── consultation.py             # BookingCreate, BookingResponse
+│   │   ├── payment.py                  # PaymentIntent, PaymentConfirm
+│   │   ├── ai.py                       # AIMatchRequest, AIChatRequest
+│   │   └── common.py                   # Common schemas (pagination, etc.)
+│   │
+│   ├── services/                       # Business logic
+│   │   ├── __init__.py
+│   │   ├── auth_service.py             # Authentication & authorization
+│   │   ├── user_service.py             # User management
+│   │   ├── mentor_service.py           # Mentor operations
+│   │   ├── learner_service.py          # Learner operations
+│   │   ├── product_service.py          # Product management
+│   │   ├── consultation_service.py     # Booking logic
+│   │   ├── payment_service.py          # Stripe integration
+│   │   ├── email_service.py            # AWS SES email sending
+│   │   ├── file_service.py             # S3 file upload/download
+│   │   ├── ai_matching_service.py      # Mentor-learner matching
+│   │   ├── ai_twin_service.py          # AI Twin conversation
+│   │   ├── ai_translation_service.py   # Content translation
+│   │   ├── ai_training_service.py      # Model training
+│   │   └── analytics_service.py        # Analytics & reporting
+│   │
+│   ├── ai/                             # AI/ML modules
+│   │   ├── __init__.py
+│   │   ├── embeddings.py               # Text embeddings (Sentence Transformers)
+│   │   ├── vector_store.py             # FAISS/pgvector wrapper
+│   │   ├── rag.py                      # RAG system implementation
+│   │   ├── matching_algorithm.py       # Mentor matching logic
+│   │   ├── twin.py                     # AI Twin core logic
+│   │   ├── training.py                 # Model fine-tuning
+│   │   ├── inference.py                # Model inference
+│   │   ├── prompts.py                  # Prompt templates
+│   │   ├── self_learning.py            # Continuous learning pipeline
+│   │   └── safety.py                   # Safety guardrails
+│   │
+│   ├── utils/                          # Utilities
+│   │   ├── __init__.py
+│   │   ├── security.py                 # Password hashing, JWT
+│   │   ├── validators.py               # Input validation
+│   │   ├── file_upload.py              # S3 upload helpers
+│   │   ├── cache.py                    # Redis caching decorators
+│   │   ├── rate_limit.py               # Rate limiting
+│   │   └── aws_monitoring.py           # AWS usage monitoring
+│   │
+│   ├── workers/                        # Celery background tasks
+│   │   ├── __init__.py
+│   │   ├── celery_app.py               # Celery configuration
+│   │   ├── ai_tasks.py                 # AI processing tasks
+│   │   ├── email_tasks.py              # Email sending tasks
+│   │   ├── file_tasks.py               # File processing tasks
+│   │   ├── training_tasks.py           # Model training tasks
+│   │   └── monitoring_tasks.py         # Monitoring & alerts
+│   │
+│   ├── middleware/                     # FastAPI middleware
+│   │   ├── __init__.py
+│   │   ├── logging.py                  # Request/response logging
+│   │   ├── error_handler.py            # Global error handling
+│   │   └── cors.py                     # CORS configuration
+│   │
+│   └── core/                           # Core functionality
+│       ├── __init__.py
+│       ├── exceptions.py               # Custom exceptions
+│       ├── constants.py                # Application constants
+│       └── events.py                   # Event handlers (startup/shutdown)
+│
+├── tests/                              # Test suite
+│   ├── __init__.py
+│   ├── conftest.py                     # Pytest fixtures
+│   ├── test_api/
+│   │   ├── test_auth.py
+│   │   ├── test_mentors.py
+│   │   ├── test_products.py
+│   │   ├── test_consultations.py
+│   │   └── test_ai.py
+│   ├── test_services/
+│   │   ├── test_ai_matching.py
+│   │   ├── test_ai_twin.py
+│   │   └── test_payment.py
+│   └── test_ai/
+│       ├── test_embeddings.py
+│       ├── test_rag.py
+│       └── test_training.py
+│
+├── alembic/                            # Database migrations
+│   ├── versions/
+│   ├── env.py
+│   └── script.py.mako
+│
+├── scripts/                            # Utility scripts
+│   ├── init_db.py                      # Initialize database
+│   ├── seed_data.py                    # Seed test data
+│   ├── train_model.py                  # Manual model training
+│   └── backup_db.py                    # Database backup
+│
+├── .env.example                        # Environment variables template
+├── .gitignore
+├── requirements.txt                    # Python dependencies
+├── requirements-dev.txt                # Development dependencies
+├── pytest.ini                          # Pytest configuration
+├── pyproject.toml                      # Python project metadata
+├── Dockerfile                          # Docker image for backend
+└── README.md
+```
 
 ---
 
-## Phase 5: Advanced Features & Scale (Months 14-18)
+## Frontend Structure (Next.js + React)
 
-### Advanced AI Capabilities
-- **Month 14-15**: Enhanced AI Twin
-  - Emotional intelligence modeling
-  - Advanced reasoning capabilities
-  - Multi-modal learning (text, audio, video)
-  - Predictive analytics for learner success
-
-### Platform Expansion
-- **Month 16-17**: Ecosystem Growth
-  - API for third-party integrations
-  - Mobile app development (React Native)
-  - Community features
-  - Gamification system
-
-### Enterprise Features
-- **Month 18**: Business Growth
-  - Team accounts for organizations
-  - Advanced analytics dashboard
-  - White-label solutions
-  - Enterprise API access
+```
+frontend/
+├── src/
+│   ├── app/                            # Next.js App Router
+│   │   ├── layout.tsx                  # Root layout
+│   │   ├── page.tsx                    # Home page (landing)
+│   │   ├── globals.css                 # Global styles
+│   │   │
+│   │   ├── (auth)/                     # Auth routes group
+│   │   │   ├── login/
+│   │   │   │   └── page.tsx
+│   │   │   ├── register/
+│   │   │   │   └── page.tsx
+│   │   │   ├── forgot-password/
+│   │   │   │   └── page.tsx
+│   │   │   └── layout.tsx              # Auth layout
+│   │   │
+│   │   ├── (dashboard)/                # Dashboard routes (authenticated)
+│   │   │   ├── layout.tsx              # Dashboard layout with sidebar
+│   │   │   │
+│   │   │   ├── mentor/                 # Mentor dashboard
+│   │   │   │   ├── dashboard/
+│   │   │   │   │   └── page.tsx        # Mentor overview
+│   │   │   │   ├── products/
+│   │   │   │   │   ├── page.tsx        # List products
+│   │   │   │   │   ├── new/
+│   │   │   │   │   │   └── page.tsx    # Create product
+│   │   │   │   │   └── [id]/
+│   │   │   │   │       ├── page.tsx    # View product
+│   │   │   │   │       └── edit/
+│   │   │   │   │           └── page.tsx # Edit product
+│   │   │   │   ├── consultations/
+│   │   │   │   │   ├── page.tsx        # List bookings
+│   │   │   │   │   └── [id]/
+│   │   │   │   │       └── page.tsx    # Booking details
+│   │   │   │   ├── ai-twin/
+│   │   │   │   │   ├── page.tsx        # AI Twin management
+│   │   │   │   │   ├── setup/
+│   │   │   │   │   │   └── page.tsx    # Initial setup wizard
+│   │   │   │   │   ├── training/
+│   │   │   │   │   │   └── page.tsx    # Training data management
+│   │   │   │   │   └── analytics/
+│   │   │   │   │       └── page.tsx    # AI performance analytics
+│   │   │   │   ├── analytics/
+│   │   │   │   │   └── page.tsx        # Sales & engagement analytics
+│   │   │   │   ├── profile/
+│   │   │   │   │   └── page.tsx        # Mentor profile settings
+│   │   │   │   └── settings/
+│   │   │   │       └── page.tsx        # Account settings
+│   │   │   │
+│   │   │   └── learner/                # Learner dashboard
+│   │   │       ├── dashboard/
+│   │   │       │   └── page.tsx        # Learner overview
+│   │   │       ├── browse/
+│   │   │       │   ├── page.tsx        # Browse mentors
+│   │   │       │   └── [id]/
+│   │   │       │       └── page.tsx    # Mentor profile
+│   │   │       ├── my-learning/
+│   │   │       │   ├── page.tsx        # Purchased products
+│   │   │       │   └── [productId]/
+│   │   │       │       └── page.tsx    # View product with AI Twin
+│   │   │       ├── consultations/
+│   │   │       │   ├── page.tsx        # My bookings
+│   │   │       │   └── [id]/
+│   │   │       │       └── page.tsx    # Booking details
+│   │   │       ├── profile/
+│   │   │       │   └── page.tsx        # Learner profile
+│   │   │       └── settings/
+│   │   │           └── page.tsx        # Account settings
+│   │   │
+│   │   ├── mentors/                    # Public mentor pages
+│   │   │   ├── page.tsx                # Browse all mentors
+│   │   │   └── [id]/
+│   │   │       ├── page.tsx            # Public mentor profile
+│   │   │       └── products/
+│   │   │           └── [productId]/
+│   │   │               └── page.tsx    # Product detail page
+│   │   │
+│   │   ├── products/                   # Public product pages
+│   │   │   ├── page.tsx                # Browse all products
+│   │   │   └── [id]/
+│   │   │       └── page.tsx            # Product detail
+│   │   │
+│   │   ├── about/
+│   │   │   └── page.tsx                # About page
+│   │   ├── pricing/
+│   │   │   └── page.tsx                # Pricing page
+│   │   ├── how-it-works/
+│   │   │   └── page.tsx                # How it works
+│   │   │
+│   │   └── api/                        # API routes (if needed)
+│   │       └── webhooks/
+│   │           └── stripe/
+│   │               └── route.ts        # Stripe webhook handler
+│   │
+│   ├── components/                     # React components
+│   │   ├── ui/                         # shadcn/ui components
+│   │   │   ├── button.tsx
+│   │   │   ├── card.tsx
+│   │   │   ├── dialog.tsx
+│   │   │   ├── dropdown-menu.tsx
+│   │   │   ├── input.tsx
+│   │   │   ├── select.tsx
+│   │   │   ├── textarea.tsx
+│   │   │   ├── toast.tsx
+│   │   │   ├── avatar.tsx
+│   │   │   ├── badge.tsx
+│   │   │   ├── calendar.tsx
+│   │   │   ├── tabs.tsx
+│   │   │   └── ...                     # More UI components
+│   │   │
+│   │   ├── layout/                     # Layout components
+│   │   │   ├── Header.tsx              # Main header
+│   │   │   ├── Footer.tsx              # Main footer
+│   │   │   ├── Sidebar.tsx             # Dashboard sidebar
+│   │   │   ├── Navbar.tsx              # Navigation bar
+│   │   │   └── DashboardLayout.tsx     # Dashboard wrapper
+│   │   │
+│   │   ├── auth/                       # Auth components
+│   │   │   ├── LoginForm.tsx
+│   │   │   ├── RegisterForm.tsx
+│   │   │   ├── ProtectedRoute.tsx
+│   │   │   └── RoleGuard.tsx           # Role-based access
+│   │   │
+│   │   ├── mentor/                     # Mentor components
+│   │   │   ├── MentorCard.tsx
+│   │   │   ├── MentorProfile.tsx
+│   │   │   ├── MentorList.tsx
+│   │   │   ├── MentorFilters.tsx
+│   │   │   ├── ProductForm.tsx
+│   │   │   ├── ProductList.tsx
+│   │   │   └── ConsultationCalendar.tsx
+│   │   │
+│   │   ├── learner/                    # Learner components
+│   │   │   ├── LearnerProfile.tsx
+│   │   │   ├── GoalsForm.tsx
+│   │   │   ├── SkillsSelector.tsx
+│   │   │   └── LearningProgress.tsx
+│   │   │
+│   │   ├── product/                    # Product components
+│   │   │   ├── ProductCard.tsx
+│   │   │   ├── ProductDetail.tsx
+│   │   │   ├── ProductViewer.tsx       # View purchased products
+│   │   │   ├── ProductUploadForm.tsx
+│   │   │   └── ProductPurchaseButton.tsx
+│   │   │
+│   │   ├── consultation/               # Consultation components
+│   │   │   ├── BookingForm.tsx
+│   │   │   ├── BookingCard.tsx
+│   │   │   ├── AvailabilityPicker.tsx
+│   │   │   └── BookingCalendar.tsx
+│   │   │
+│   │   ├── ai/                         # AI components
+│   │   │   ├── AIChat.tsx              # AI Twin chat interface
+│   │   │   ├── AIChatMessage.tsx
+│   │   │   ├── AIChatInput.tsx
+│   │   │   ├── AIMatchSuggestions.tsx  # Mentor recommendations
+│   │   │   ├── AIMatchCard.tsx
+│   │   │   ├── AITwinSetup.tsx         # AI Twin setup wizard
+│   │   │   ├── AITrainingDataUpload.tsx
+│   │   │   ├── AIAnalyticsDashboard.tsx
+│   │   │   ├── AIFeedbackWidget.tsx    # Feedback collection
+│   │   │   └── AIConfidenceIndicator.tsx
+│   │   │
+│   │   ├── payment/                    # Payment components
+│   │   │   ├── CheckoutForm.tsx
+│   │   │   ├── PaymentMethodSelector.tsx
+│   │   │   └── PricingCard.tsx
+│   │   │
+│   │   ├── analytics/                  # Analytics components
+│   │   │   ├── SalesChart.tsx
+│   │   │   ├── EngagementMetrics.tsx
+│   │   │   ├── RevenueReport.tsx
+│   │   │   └── UserGrowthChart.tsx
+│   │   │
+│   │   └── common/                     # Common components
+│   │       ├── LoadingSpinner.tsx
+│   │       ├── ErrorMessage.tsx
+│   │       ├── EmptyState.tsx
+│   │       ├── Pagination.tsx
+│   │       ├── SearchBar.tsx
+│   │       ├── FilterBar.tsx
+│   │       ├── ConfirmDialog.tsx
+│   │       └── FileUploader.tsx
+│   │
+│   ├── lib/                            # Utility libraries
+│   │   ├── api.ts                      # API client (axios/fetch)
+│   │   ├── utils.ts                    # General utilities
+│   │   ├── constants.ts                # Constants
+│   │   ├── validators.ts               # Form validators
+│   │   └── cn.ts                       # Tailwind class merger
+│   │
+│   ├── hooks/                          # Custom React hooks
+│   │   ├── useAuth.ts                  # Authentication hook
+│   │   ├── useUser.ts                  # Current user data
+│   │   ├── useMentors.ts               # Fetch mentors
+│   │   ├── useProducts.ts              # Fetch products
+│   │   ├── useConsultations.ts         # Fetch bookings
+│   │   ├── useAIChat.ts                # AI chat functionality
+│   │   ├── useAIMatching.ts            # AI matching
+│   │   ├── usePayment.ts               # Payment processing
+│   │   ├── useFileUpload.ts            # File upload
+│   │   └── useDebounce.ts              # Debounce hook
+│   │
+│   ├── store/                          # State management (Zustand)
+│   │   ├── authStore.ts                # Auth state
+│   │   ├── userStore.ts                # User data
+│   │   ├── chatStore.ts                # AI chat state
+│   │   └── cartStore.ts                # Shopping cart (if needed)
+│   │
+│   ├── types/                          # TypeScript types
+│   │   ├── user.ts                     # User types
+│   │   ├── mentor.ts                   # Mentor types
+│   │   ├── learner.ts                  # Learner types
+│   │   ├── product.ts                  # Product types
+│   │   ├── consultation.ts             # Consultation types
+│   │   ├── ai.ts                       # AI types
+│   │   ├── payment.ts                  # Payment types
+│   │   └── api.ts                      # API response types
+│   │
+│   └── styles/                         # Additional styles
+│       ├── globals.css                 # Global styles
+│       └── theme.css                   # Theme variables
+│
+├── public/                             # Static assets
+│   ├── images/
+│   │   ├── logo.svg
+│   │   ├── hero-bg.jpg
+│   │   └── placeholders/
+│   ├── icons/
+│   ├── fonts/
+│   └── favicon.ico
+│
+├── tests/                              # Frontend tests
+│   ├── unit/
+│   ├── integration/
+│   └── e2e/
+│
+├── .env.local.example                  # Environment variables
+├── .gitignore
+├── package.json
+├── package-lock.json
+├── tsconfig.json                       # TypeScript config
+├── next.config.js                      # Next.js config
+├── tailwind.config.ts                  # Tailwind CSS config
+├── postcss.config.js                   # PostCSS config
+├── components.json                     # shadcn/ui config
+├── Dockerfile                          # Docker image for frontend
+└── README.md
+```
 
 ---
 
-## Human-AI Collaboration Principles
+## Infrastructure Structure
 
-### AI Advisory System with Human Final Decision
-Throughout all phases, maintain these principles:
-
-1. **AI as Advisor, Human as Decision Maker**
-   - AI provides recommendations with confidence scores
-   - Clear explanation of AI reasoning
-   - Multiple options presented when applicable
-   - Human approval required for critical decisions
-
-2. **Transparency**
-   - Always show when AI is involved
-   - Explain AI limitations
-   - Provide override mechanisms
-   - Clear audit trails
-
-3. **Safety & Ethics**
-   - Content moderation system
-   - Bias detection and mitigation
-   - Privacy-first approach
-   - User data protection (GDPR compliance)
-
-4. **Quality Control**
-   - Human review of AI outputs
-   - Feedback mechanisms
-   - Quality metrics monitoring
-   - Continuous improvement cycles
+```
+infrastructure/
+├── aws/
+│   ├── cloudformation/                 # CloudFormation templates
+│   │   ├── vpc.yml
+│   │   ├── ec2.yml
+│   │   ├── rds.yml
+│   │   ├── s3.yml
+│   │   ├── cloudfront.yml
+│   │   └── lambda.yml
+│   │
+│   ├── terraform/                      # Terraform (alternative to CF)
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   │   ├── modules/
+│   │   │   ├── vpc/
+│   │   │   ├── ec2/
+│   │   │   ├── rds/
+│   │   │   └── s3/
+│   │   └── environments/
+│   │       ├── dev/
+│   │       ├── staging/
+│   │       └── production/
+│   │
+│   └── scripts/
+│       ├── deploy.sh                   # Deployment script
+│       ├── backup.sh                   # Backup script
+│       └── monitoring.sh               # Monitoring setup
+│
+├── docker/
+│   ├── backend/
+│   │   └── Dockerfile
+│   ├── frontend/
+│   │   └── Dockerfile
+│   └── nginx/
+│       ├── Dockerfile
+│       └── nginx.conf
+│
+├── kubernetes/                         # For future scaling
+│   ├── deployment.yml
+│   ├── service.yml
+│   ├── ingress.yml
+│   └── configmap.yml
+│
+└── ci-cd/
+    ├── .github/
+    │   └── workflows/
+    │       ├── backend-ci.yml
+    │       ├── frontend-ci.yml
+    │       └── deploy.yml
+    └── gitlab-ci.yml                   # Alternative to GitHub Actions
+```
 
 ---
 
-## Success Metrics
+## Documentation Structure
 
-### Technical Metrics
-- System uptime: >99.5%
-- API response time: <500ms (p95)
-- AI response time: <3s
-- Match accuracy: >85%
-- User satisfaction: >4.5/5
-
-### Business Metrics
-- User acquisition rate
-- Creator retention rate
-- Transaction volume
-- Revenue per creator
-- AI Twin adoption rate
+```
+docs/
+├── README.md                           # Documentation overview
+├── PROJECT_ROADMAP.md                  # ✅ Already created
+├── IMPLEMENTATION_PLAN.md              # ✅ Already created
+├── AI_STRATEGY.md                      # ✅ Already created
+├── AWS_FREE_TIER_GUIDE.md              # ✅ Already created
+├── PROJECT_STRUCTURE.md                # ✅ This file
+│
+├── architecture/
+│   ├── system-design.md                # High-level architecture
+│   ├── database-schema.md              # Database design
+│   ├── api-documentation.md            # API endpoints
+│   └── data-flow.md                    # Data flow diagrams
+│
+├── development/
+│   ├── setup-guide.md                  # Development setup
+│   ├── coding-standards.md             # Code style guide
+│   ├── git-workflow.md                 # Git branching strategy
+│   └── testing-guide.md                # Testing best practices
+│
+├── deployment/
+│   ├── aws-deployment.md               # AWS deployment guide
+│   ├── docker-deployment.md            # Docker deployment
+│   ├── ci-cd-setup.md                  # CI/CD configuration
+│   └── monitoring-setup.md             # Monitoring & logging
+│
+├── ai/
+│   ├── ai-architecture.md              # AI system design
+│   ├── rag-implementation.md           # RAG system details
+│   ├── model-training.md               # Training guide
+│   ├── prompt-engineering.md           # Prompt templates
+│   └── self-learning-guide.md          # Continuous learning
+│
+├── features/
+│   ├── mentor-matching.md              # Matching algorithm
+│   ├── ai-twin.md                      # AI Twin functionality
+│   ├── consultation-booking.md         # Booking system
+│   ├── payment-processing.md           # Payment flow
+│   └── content-translation.md          # Translation feature
+│
+└── user-guides/
+    ├── mentor-guide.md                 # For mentors
+    ├── learner-guide.md                # For learners
+    └── admin-guide.md                  # For administrators
+```
 
 ---
 
-## Risk Management
+## Scripts Structure
 
-### Technical Risks
-- **AWS Free Tier Limits**: Monitor usage, implement alerts
-- **AI Costs**: Aggressive caching, rate limiting, prompt optimization
-- **Scalability**: Design for horizontal scaling from day 1
-- **Data Security**: Encryption, regular audits, compliance
+```
+scripts/
+├── setup/
+│   ├── setup_dev_environment.sh        # Setup local dev
+│   ├── setup_aws.sh                    # Setup AWS resources
+│   └── install_dependencies.sh         # Install all dependencies
+│
+├── database/
+│   ├── init_db.py                      # Initialize database
+│   ├── seed_data.py                    # Seed test data
+│   ├── backup_db.sh                    # Backup database
+│   ├── restore_db.sh                   # Restore from backup
+│   └── migrate_db.py                   # Run migrations
+│
+├── deployment/
+│   ├── deploy_backend.sh               # Deploy backend to AWS
+│   ├── deploy_frontend.sh              # Deploy frontend
+│   ├── deploy_all.sh                   # Full deployment
+│   └── rollback.sh                     # Rollback deployment
+│
+├── ai/
+│   ├── train_model.py                  # Train AI model
+│   ├── evaluate_model.py               # Evaluate performance
+│   ├── generate_embeddings.py          # Generate embeddings
+│   └── test_ai_twin.py                 # Test AI Twin
+│
+├── monitoring/
+│   ├── check_health.sh                 # Health check
+│   ├── monitor_costs.py                # AWS cost monitoring
+│   ├── monitor_performance.py          # Performance monitoring
+│   └── alert_setup.sh                  # Setup alerts
+│
+└── utils/
+    ├── clean_up.sh                     # Clean up resources
+    ├── generate_api_docs.sh            # Generate API docs
+    └── run_tests.sh                    # Run all tests
+```
 
-### Business Risks
-- **User Adoption**: Beta testing, feedback loops, iterative improvement
-- **Competition**: Focus on unique AI Twin value proposition
-- **Regulatory**: Stay updated on AI regulations, data privacy laws
+---
+
+## Environment Variables
+
+### Backend (.env)
+
+```bash
+# Database
+DATABASE_URL=postgresql://user:password@localhost:5432/gcreators
+
+# Redis
+REDIS_URL=redis://localhost:6379/0
+
+# JWT
+SECRET_KEY=your-secret-key-change-in-production
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+# AWS
+AWS_REGION=us-east-1
+AWS_ACCESS_KEY_ID=your-access-key
+AWS_SECRET_ACCESS_KEY=your-secret-key
+S3_BUCKET_NAME=gcreators-media
+CLOUDFRONT_DOMAIN=your-cloudfront-domain.net
+
+# AI APIs
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-ant-...
+PINECONE_API_KEY=your-pinecone-key
+PINECONE_ENVIRONMENT=us-east-1-aws
+
+# Payment
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+
+# Email
+SES_SENDER_EMAIL=noreply@gcreators.me
+
+# Application
+APP_NAME=GCreators
+APP_ENV=development
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+CORS_ORIGINS=http://localhost:3000
+
+# Monitoring
+SENTRY_DSN=your-sentry-dsn  # Optional
+```
+
+### Frontend (.env.local)
+
+```bash
+# API
+NEXT_PUBLIC_API_URL=http://localhost:8000
+NEXT_PUBLIC_API_VERSION=v1
+
+# Stripe
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+
+# App
+NEXT_PUBLIC_APP_NAME=GCreators
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# Feature Flags
+NEXT_PUBLIC_ENABLE_AI_TWIN=true
+NEXT_PUBLIC_ENABLE_TRANSLATIONS=false
+
+# Analytics (Optional)
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+```
+
+---
+
+## Git Workflow
+
+### Branch Structure
+
+```
+main                    # Production-ready code
+├── develop             # Integration branch
+│   ├── feature/ai-twin
+│   ├── feature/mentor-matching
+│   ├── feature/payment-integration
+│   ├── bugfix/auth-issue
+│   └── hotfix/critical-bug
+```
+
+### Commit Message Format
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+**Types**:
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation
+- `style`: Formatting
+- `refactor`: Code restructuring
+- `test`: Tests
+- `chore`: Maintenance
+
+**Example**:
+```
+feat(ai-twin): implement RAG system for mentor knowledge
+
+- Add vector database integration with FAISS
+- Create embedding generation service
+- Implement context-aware response generation
+- Add caching for embeddings
+
+Closes #123
+```
+
+---
+
+## Testing Structure
+
+### Backend Tests
+```bash
+# Run all tests
+pytest
+
+# Run with coverage
+pytest --cov=app --cov-report=html
+
+# Run specific test file
+pytest tests/test_api/test_auth.py
+
+# Run specific test
+pytest tests/test_api/test_auth.py::test_register_user
+```
+
+### Frontend Tests
+```bash
+# Run unit tests
+npm run test
+
+# Run with coverage
+npm run test:coverage
+
+# Run E2E tests
+npm run test:e2e
+```
+
+---
+
+## Quick Start Commands
+
+### Initial Setup
+```bash
+# Clone repository
+git clone https://github.com/your-org/gcreators.git
+cd gcreators
+
+# Setup backend
+cd backend
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+cp .env.example .env
+# Edit .env with your configurations
+
+# Setup database
+docker-compose up -d postgres redis
+alembic upgrade head
+python scripts/seed_data.py
+
+# Run backend
+uvicorn app.main:app --reload
+
+# Setup frontend (in new terminal)
+cd frontend
+npm install
+cp .env.local.example .env.local
+# Edit .env.local
+
+# Run frontend
+npm run dev
+```
+
+### Access Application
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000
+- API Docs: http://localhost:8000/docs
+
+---
+
+## Summary
+
+This project structure provides:
+
+1. ✅ **Clear separation** of backend and frontend
+2. ✅ **Modular architecture** for easy maintenance
+3. ✅ **Scalable structure** for future growth
+4. ✅ **Comprehensive testing** setup
+5. ✅ **AI modules** isolated for flexibility
+6. ✅ **Infrastructure as Code** for reproducibility
+7. ✅ **Documentation** for all aspects
+8. ✅ **Development scripts** for automation
+
+
 
